@@ -1,0 +1,318 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<uml:Model xmi:version="20131001" xmlns:xmi="http://www.omg.org/spec/XMI/20131001" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:uml="http://www.eclipse.org/uml2/5.0.0/UML" xmi:id="_omhscD8dEfG6Pb5GD03cUw" name="StudyPlanner_UML">
+  <packageImport xmi:type="uml:PackageImport" xmi:id="_o6ua0D8dEfG6Pb5GD03cUw">
+    <importedPackage xmi:type="uml:Model" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#_0"/>
+  </packageImport>
+  <packagedElement xmi:type="uml:Interaction" xmi:id="_ou6MYD8dEfG6Pb5GD03cUw" name="Interaction1"/>
+  <packagedElement xmi:type="uml:Activity" xmi:id="_ovgpUD8dEfG6Pb5GD03cUw" name="Activity2"/>
+  <packagedElement xmi:type="uml:Activity" xmi:id="_owI7cD8dEfG6Pb5GD03cUw" name="Activity3"/>
+  <packagedElement xmi:type="uml:Activity" xmi:id="_o2L5ED8dEfG6Pb5GD03cUw" name="Activity4"/>
+  <packagedElement xmi:type="uml:StateMachine" xmi:id="_o2VDAD8dEfG6Pb5GD03cUw" name="StateMachine5">
+    <region xmi:type="uml:Region" xmi:id="_o2XfQD8dEfG6Pb5GD03cUw" name="Region1"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Interaction" xmi:id="_o3hV0D8dEfG6Pb5GD03cUw" name="Interaction2">
+    <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_o3xNcD8dEfG6Pb5GD03cUw" source="org.eclipse.papyrus.sirius.uml.diagram.sequence.end"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Interaction" xmi:id="_o4FWgD8dEfG6Pb5GD03cUw" name="Interaction3"/>
+  <packagedElement xmi:type="uml:Interaction" xmi:id="_o4pXMD8dEfG6Pb5GD03cUw" name="Interaction8"/>
+  <packagedElement xmi:type="uml:StateMachine" xmi:id="_o4u2wD8dEfG6Pb5GD03cUw" name="StateMachine9">
+    <region xmi:type="uml:Region" xmi:id="_o40WUD8dEfG6Pb5GD03cUw" name="Region1"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Class" xmi:id="_h5McUD8eEfG6Pb5GD03cUw" name="Study-Planner-Anwendung" useCase="_v5NacD8eEfG6Pb5GD03cUw _2SdbgD8eEfG6Pb5GD03cUw _6QiaoD8eEfG6Pb5GD03cUw _-6foUD8eEfG6Pb5GD03cUw _DFuSoD8fEfG6Pb5GD03cUw _GtRBED8fEfG6Pb5GD03cUw _LqmdwD8fEfG6Pb5GD03cUw">
+    <ownedUseCase xmi:type="uml:UseCase" xmi:id="_v5NacD8eEfG6Pb5GD03cUw" name="Module verwalten" subject="_h5McUD8eEfG6Pb5GD03cUw"/>
+    <ownedUseCase xmi:type="uml:UseCase" xmi:id="_2SdbgD8eEfG6Pb5GD03cUw" name="Termine erfassen" subject="_h5McUD8eEfG6Pb5GD03cUw"/>
+    <ownedUseCase xmi:type="uml:UseCase" xmi:id="_6QiaoD8eEfG6Pb5GD03cUw" name="Lernblöcke planen" subject="_h5McUD8eEfG6Pb5GD03cUw"/>
+    <ownedUseCase xmi:type="uml:UseCase" xmi:id="_-6foUD8eEfG6Pb5GD03cUw" name="Kalender anzeigen und filtern" subject="_h5McUD8eEfG6Pb5GD03cUw"/>
+    <ownedUseCase xmi:type="uml:UseCase" xmi:id="_DFuSoD8fEfG6Pb5GD03cUw" name="Erinnerungen erhalten" subject="_h5McUD8eEfG6Pb5GD03cUw"/>
+    <ownedUseCase xmi:type="uml:UseCase" xmi:id="_GtRBED8fEfG6Pb5GD03cUw" name="Daten speichern und laden" subject="_h5McUD8eEfG6Pb5GD03cUw">
+      <extensionPoint xmi:type="uml:ExtensionPoint" xmi:id="_EwRTcD8gEfG6Pb5GD03cUw"/>
+    </ownedUseCase>
+    <ownedUseCase xmi:type="uml:UseCase" xmi:id="_LqmdwD8fEfG6Pb5GD03cUw" name="Daten importieren und exportieren (optional)" subject="_h5McUD8eEfG6Pb5GD03cUw">
+      <extend xmi:type="uml:Extend" xmi:id="_EwO3MD8gEfG6Pb5GD03cUw" extendedCase="_GtRBED8fEfG6Pb5GD03cUw" extensionLocation="_EwRTcD8gEfG6Pb5GD03cUw">
+        <name xsi:nil="true"/>
+      </extend>
+    </ownedUseCase>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Actor" xmi:id="_YfFc4D8fEfG6Pb5GD03cUw" name="Studierende"/>
+  <packagedElement xmi:type="uml:Association" xmi:id="_fRCR0D8fEfG6Pb5GD03cUw" visibility="public" memberEnd="_fRC44j8fEfG6Pb5GD03cUw _fRC44z8fEfG6Pb5GD03cUw">
+    <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_fRC44D8fEfG6Pb5GD03cUw" source="org.eclipse.papyrus">
+      <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_fRC44T8fEfG6Pb5GD03cUw" key="nature" value="UML_Nature"/>
+    </eAnnotations>
+    <name xsi:nil="true"/>
+    <ownedEnd xmi:type="uml:Property" xmi:id="_fRC44j8fEfG6Pb5GD03cUw" name="termine erfassen" type="_2SdbgD8eEfG6Pb5GD03cUw" association="_fRCR0D8fEfG6Pb5GD03cUw"/>
+    <ownedEnd xmi:type="uml:Property" xmi:id="_fRC44z8fEfG6Pb5GD03cUw" name="studierende" type="_YfFc4D8fEfG6Pb5GD03cUw" association="_fRCR0D8fEfG6Pb5GD03cUw"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Association" xmi:id="_ghfNED8fEfG6Pb5GD03cUw" memberEnd="_ghf0Ij8fEfG6Pb5GD03cUw _ghf0Iz8fEfG6Pb5GD03cUw">
+    <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_ghf0ID8fEfG6Pb5GD03cUw" source="org.eclipse.papyrus">
+      <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_ghf0IT8fEfG6Pb5GD03cUw" key="nature" value="UML_Nature"/>
+    </eAnnotations>
+    <name xsi:nil="true"/>
+    <ownedEnd xmi:type="uml:Property" xmi:id="_ghf0Ij8fEfG6Pb5GD03cUw" name="lernblöcke planen" type="_6QiaoD8eEfG6Pb5GD03cUw" association="_ghfNED8fEfG6Pb5GD03cUw"/>
+    <ownedEnd xmi:type="uml:Property" xmi:id="_ghf0Iz8fEfG6Pb5GD03cUw" name="studierende" type="_YfFc4D8fEfG6Pb5GD03cUw" association="_ghfNED8fEfG6Pb5GD03cUw"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Association" xmi:id="_hvAJED8fEfG6Pb5GD03cUw" memberEnd="_hvAwID8fEfG6Pb5GD03cUw _hvAwIT8fEfG6Pb5GD03cUw">
+    <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_hvAJET8fEfG6Pb5GD03cUw" source="org.eclipse.papyrus">
+      <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_hvAJEj8fEfG6Pb5GD03cUw" key="nature" value="UML_Nature"/>
+    </eAnnotations>
+    <name xsi:nil="true"/>
+    <ownedEnd xmi:type="uml:Property" xmi:id="_hvAwID8fEfG6Pb5GD03cUw" name="kalender anzeigen und filtern" type="_-6foUD8eEfG6Pb5GD03cUw" association="_hvAJED8fEfG6Pb5GD03cUw"/>
+    <ownedEnd xmi:type="uml:Property" xmi:id="_hvAwIT8fEfG6Pb5GD03cUw" name="studierende" type="_YfFc4D8fEfG6Pb5GD03cUw" association="_hvAJED8fEfG6Pb5GD03cUw"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Association" xmi:id="_i2eHcD8fEfG6Pb5GD03cUw" memberEnd="_i2eHcz8fEfG6Pb5GD03cUw _i2eugD8fEfG6Pb5GD03cUw">
+    <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_i2eHcT8fEfG6Pb5GD03cUw" source="org.eclipse.papyrus">
+      <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_i2eHcj8fEfG6Pb5GD03cUw" key="nature" value="UML_Nature"/>
+    </eAnnotations>
+    <name xsi:nil="true"/>
+    <ownedEnd xmi:type="uml:Property" xmi:id="_i2eHcz8fEfG6Pb5GD03cUw" name="erinnnerungen erhalten" type="_DFuSoD8fEfG6Pb5GD03cUw" association="_i2eHcD8fEfG6Pb5GD03cUw"/>
+    <ownedEnd xmi:type="uml:Property" xmi:id="_i2eugD8fEfG6Pb5GD03cUw" name="studierende" type="_YfFc4D8fEfG6Pb5GD03cUw" association="_i2eHcD8fEfG6Pb5GD03cUw"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Association" xmi:id="_j3ffkD8fEfG6Pb5GD03cUw" memberEnd="_j3gtsj8fEfG6Pb5GD03cUw _j3gtsz8fEfG6Pb5GD03cUw">
+    <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_j3gtsD8fEfG6Pb5GD03cUw" source="org.eclipse.papyrus">
+      <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_j3gtsT8fEfG6Pb5GD03cUw" key="nature" value="UML_Nature"/>
+    </eAnnotations>
+    <name xsi:nil="true"/>
+    <ownedEnd xmi:type="uml:Property" xmi:id="_j3gtsj8fEfG6Pb5GD03cUw" name="daten speichern und laden" type="_GtRBED8fEfG6Pb5GD03cUw" association="_j3ffkD8fEfG6Pb5GD03cUw"/>
+    <ownedEnd xmi:type="uml:Property" xmi:id="_j3gtsz8fEfG6Pb5GD03cUw" name="studierende" type="_YfFc4D8fEfG6Pb5GD03cUw" association="_j3ffkD8fEfG6Pb5GD03cUw"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Association" xmi:id="_lFmRcD8fEfG6Pb5GD03cUw" memberEnd="_lFm4gj8fEfG6Pb5GD03cUw _lFm4gz8fEfG6Pb5GD03cUw">
+    <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_lFm4gD8fEfG6Pb5GD03cUw" source="org.eclipse.papyrus">
+      <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_lFm4gT8fEfG6Pb5GD03cUw" key="nature" value="UML_Nature"/>
+    </eAnnotations>
+    <name xsi:nil="true"/>
+    <ownedEnd xmi:type="uml:Property" xmi:id="_lFm4gj8fEfG6Pb5GD03cUw" name="daten importieren/exportieren" type="_LqmdwD8fEfG6Pb5GD03cUw" association="_lFmRcD8fEfG6Pb5GD03cUw"/>
+    <ownedEnd xmi:type="uml:Property" xmi:id="_lFm4gz8fEfG6Pb5GD03cUw" name="studierende" type="_YfFc4D8fEfG6Pb5GD03cUw" association="_lFmRcD8fEfG6Pb5GD03cUw"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Actor" xmi:id="_xK52YD8fEfG6Pb5GD03cUw" name="Systemzeit"/>
+  <packagedElement xmi:type="uml:Actor" xmi:id="_1sH-0D8fEfG6Pb5GD03cUw" name="Dateisystem"/>
+  <packagedElement xmi:type="uml:Association" xmi:id="_8lOkoD8fEfG6Pb5GD03cUw" memberEnd="_8lPywD8fEfG6Pb5GD03cUw _8lPywT8fEfG6Pb5GD03cUw">
+    <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_8lPLsD8fEfG6Pb5GD03cUw" source="org.eclipse.papyrus">
+      <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_8lPLsT8fEfG6Pb5GD03cUw" key="nature" value="UML_Nature"/>
+    </eAnnotations>
+    <name xsi:nil="true"/>
+    <ownedEnd xmi:type="uml:Property" xmi:id="_8lPywD8fEfG6Pb5GD03cUw" name="erinnnerungen erhalten" type="_DFuSoD8fEfG6Pb5GD03cUw" association="_8lOkoD8fEfG6Pb5GD03cUw"/>
+    <ownedEnd xmi:type="uml:Property" xmi:id="_8lPywT8fEfG6Pb5GD03cUw" name="systemzeit" type="_xK52YD8fEfG6Pb5GD03cUw" association="_8lOkoD8fEfG6Pb5GD03cUw"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Association" xmi:id="__FzD8D8fEfG6Pb5GD03cUw" memberEnd="__FzD8z8fEfG6Pb5GD03cUw __FzrAD8fEfG6Pb5GD03cUw">
+    <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="__FzD8T8fEfG6Pb5GD03cUw" source="org.eclipse.papyrus">
+      <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="__FzD8j8fEfG6Pb5GD03cUw" key="nature" value="UML_Nature"/>
+    </eAnnotations>
+    <name xsi:nil="true"/>
+    <ownedEnd xmi:type="uml:Property" xmi:id="__FzD8z8fEfG6Pb5GD03cUw" name="daten speichern und laden" type="_GtRBED8fEfG6Pb5GD03cUw" association="__FzD8D8fEfG6Pb5GD03cUw"/>
+    <ownedEnd xmi:type="uml:Property" xmi:id="__FzrAD8fEfG6Pb5GD03cUw" name="dateisystem" type="_1sH-0D8fEfG6Pb5GD03cUw" association="__FzD8D8fEfG6Pb5GD03cUw"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Association" xmi:id="__v_3gD8fEfG6Pb5GD03cUw" memberEnd="__wBFoD8fEfG6Pb5GD03cUw __wBFoT8fEfG6Pb5GD03cUw">
+    <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="__v_3gT8fEfG6Pb5GD03cUw" source="org.eclipse.papyrus">
+      <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="__v_3gj8fEfG6Pb5GD03cUw" key="nature" value="UML_Nature"/>
+    </eAnnotations>
+    <name xsi:nil="true"/>
+    <ownedEnd xmi:type="uml:Property" xmi:id="__wBFoD8fEfG6Pb5GD03cUw" name="daten importieren/exportieren" type="_LqmdwD8fEfG6Pb5GD03cUw" association="__v_3gD8fEfG6Pb5GD03cUw"/>
+    <ownedEnd xmi:type="uml:Property" xmi:id="__wBFoT8fEfG6Pb5GD03cUw" name="dateisystem" type="_1sH-0D8fEfG6Pb5GD03cUw" association="__v_3gD8fEfG6Pb5GD03cUw"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Association" xmi:id="_bCiboD8gEfG6Pb5GD03cUw" memberEnd="_bCjCsj8gEfG6Pb5GD03cUw _bCjCsz8gEfG6Pb5GD03cUw">
+    <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_bCjCsD8gEfG6Pb5GD03cUw" source="org.eclipse.papyrus">
+      <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_bCjCsT8gEfG6Pb5GD03cUw" key="nature" value="UML_Nature"/>
+    </eAnnotations>
+    <name xsi:nil="true"/>
+    <ownedEnd xmi:type="uml:Property" xmi:id="_bCjCsj8gEfG6Pb5GD03cUw" name="module verwalten" type="_v5NacD8eEfG6Pb5GD03cUw" association="_bCiboD8gEfG6Pb5GD03cUw"/>
+    <ownedEnd xmi:type="uml:Property" xmi:id="_bCjCsz8gEfG6Pb5GD03cUw" name="studierende" type="_YfFc4D8fEfG6Pb5GD03cUw" association="_bCiboD8gEfG6Pb5GD03cUw"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Class" xmi:id="_qhdfYD8uEfG6Pb5GD03cUw" name="Einstellungen" visibility="public">
+    <ownedAttribute xmi:type="uml:Property" xmi:id="_vdLygD8uEfG6Pb5GD03cUw" name="standardansicht" visibility="private" type="_R8aGID83EfG6Pb5GD03cUw" isUnique="false"/>
+    <ownedAttribute xmi:type="uml:Property" xmi:id="_zTXZ4D8uEfG6Pb5GD03cUw" name="standardErinnerung" visibility="private" type="_ZC9SED83EfG6Pb5GD03cUw" isUnique="false"/>
+    <ownedAttribute xmi:type="uml:Property" xmi:id="_2lOMMD8uEfG6Pb5GD03cUw" name="speicherort" visibility="private" type="_fP_cED83EfG6Pb5GD03cUw" isUnique="false"/>
+    <ownedOperation xmi:type="uml:Operation" xmi:id="_i4RKUD83EfG6Pb5GD03cUw" name="Einstellung(standardsicht : String, standardErinnerung : int, speicherort : String)"/>
+    <ownedOperation xmi:type="uml:Operation" xmi:id="_k6FRED83EfG6Pb5GD03cUw" name="getStandardsicht() : String"/>
+    <ownedOperation xmi:type="uml:Operation" xmi:id="_mu42kD83EfG6Pb5GD03cUw" name="setStandardsicht(standardsicht : String) : void"/>
+    <ownedOperation xmi:type="uml:Operation" xmi:id="_oPPPAD83EfG6Pb5GD03cUw" name="getStandardErinnerung() : int"/>
+    <ownedOperation xmi:type="uml:Operation" xmi:id="_p2lAQD83EfG6Pb5GD03cUw" name="setStandardErinnerung(standardErinnerung : int) : void"/>
+    <ownedOperation xmi:type="uml:Operation" xmi:id="_r2wvUD83EfG6Pb5GD03cUw" name="getSpeicherort() : String"/>
+    <ownedOperation xmi:type="uml:Operation" xmi:id="_tcU-8D83EfG6Pb5GD03cUw" name="setSpeicherort(speicherort : String) : void"/>
+    <nestedClassifier xmi:type="uml:DataType" xmi:id="_R8aGID83EfG6Pb5GD03cUw" name="String"/>
+    <nestedClassifier xmi:type="uml:DataType" xmi:id="_ZC9SED83EfG6Pb5GD03cUw" name="int"/>
+    <nestedClassifier xmi:type="uml:DataType" xmi:id="_fP_cED83EfG6Pb5GD03cUw" name="String"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Class" xmi:id="__ALmUD8uEfG6Pb5GD03cUw" name="StudyPlanner" visibility="public">
+    <ownedAttribute xmi:type="uml:Property" xmi:id="_EoUTgD8vEfG6Pb5GD03cUw" name="Name" visibility="private" type="_jgEDwD8vEfG6Pb5GD03cUw" isUnique="false"/>
+    <ownedAttribute xmi:type="uml:Property" xmi:id="_Nywp0D8vEfG6Pb5GD03cUw" name="AktuellesSemester" visibility="private" type="_-1-sAD8vEfG6Pb5GD03cUw" isUnique="false"/>
+    <ownedAttribute xmi:type="uml:Property" xmi:id="_I0V48D84EfG6Pb5GD03cUw" name="modul" type="_erH4oD8wEfG6Pb5GD03cUw" aggregation="composite" association="_I0PyUD84EfG6Pb5GD03cUw">
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_kqG-kD87EfG6Pb5GD03cUw" name="LiteralInteger1"/>
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_kqG-kT87EfG6Pb5GD03cUw" name="LiteralUnlimitedNatural1" value="*"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:type="uml:Property" xmi:id="_SFabsj84EfG6Pb5GD03cUw" name="termin" type="_xbrisD8yEfG6Pb5GD03cUw" aggregation="composite" association="_SFZNkD84EfG6Pb5GD03cUw">
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_uSHaoD87EfG6Pb5GD03cUw" name="LiteralInteger1"/>
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_uSHaoT87EfG6Pb5GD03cUw" name="LiteralUnlimitedNatural1" value="*"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:type="uml:Property" xmi:id="_Ue-UEj84EfG6Pb5GD03cUw" name="lernblock" type="_tYWlQD80EfG6Pb5GD03cUw" aggregation="composite" association="_Ue9tAD84EfG6Pb5GD03cUw">
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_rt38QD87EfG6Pb5GD03cUw" name="LiteralInteger1"/>
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_rt38QT87EfG6Pb5GD03cUw" name="LiteralUnlimitedNatural1" value="*"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:type="uml:Property" xmi:id="_X9NVgj84EfG6Pb5GD03cUw" name="einstellungen" type="_qhdfYD8uEfG6Pb5GD03cUw" aggregation="composite" association="_X9MucD84EfG6Pb5GD03cUw">
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_x-GPED85EfG6Pb5GD03cUw" name="LiteralInteger1" value="1"/>
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_x-G2ID85EfG6Pb5GD03cUw" name="LiteralUnlimitedNatural1" value="1"/>
+    </ownedAttribute>
+    <nestedClassifier xmi:type="uml:DataType" xmi:id="_jgEDwD8vEfG6Pb5GD03cUw" name="String" visibility="public"/>
+    <nestedClassifier xmi:type="uml:DataType" xmi:id="_-1-sAD8vEfG6Pb5GD03cUw" name="String"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Class" xmi:id="_erH4oD8wEfG6Pb5GD03cUw" name="Modul" visibility="public">
+    <ownedAttribute xmi:type="uml:Property" xmi:id="_mL14ED8wEfG6Pb5GD03cUw" name="modulId" visibility="private" type="_uGW3kD8wEfG6Pb5GD03cUw"/>
+    <ownedAttribute xmi:type="uml:Property" xmi:id="_1RmWQD8wEfG6Pb5GD03cUw" name="bezeichnung" visibility="private" type="_6jJvcD8wEfG6Pb5GD03cUw" isUnique="false"/>
+    <ownedAttribute xmi:type="uml:Property" xmi:id="_-mIcsD8wEfG6Pb5GD03cUw" name="semester" visibility="private" type="_CEs1UD8xEfG6Pb5GD03cUw" isUnique="false"/>
+    <ownedAttribute xmi:type="uml:Property" xmi:id="_IqongD8xEfG6Pb5GD03cUw" name="beschreibung" visibility="private" type="_Pr3OkD8xEfG6Pb5GD03cUw" isUnique="false">
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_MIhDoD8xEfG6Pb5GD03cUw" name="LiteralInteger1"/>
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_MIiRwD8xEfG6Pb5GD03cUw" name="LiteralUnlimitedNatural1" value="1"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:type="uml:Property" xmi:id="_dg0MMD8xEfG6Pb5GD03cUw" name="kreditpunkte" visibility="private" type="_ioaYID8xEfG6Pb5GD03cUw" isUnique="false"/>
+    <ownedOperation xmi:type="uml:Operation" xmi:id="_qx_uYD8xEfG6Pb5GD03cUw" name=" Modul(modulId : int, bezeichnung : String, semester : String, beschreibung : String, kreditpunkte : int)"/>
+    <ownedOperation xmi:type="uml:Operation" xmi:id="_wlZ3cD8xEfG6Pb5GD03cUw" name="getModulId() : int"/>
+    <ownedOperation xmi:type="uml:Operation" xmi:id="_40IzcD8xEfG6Pb5GD03cUw" name="getBezeichnung() : String"/>
+    <ownedOperation xmi:type="uml:Operation" xmi:id="_9Zem4D8xEfG6Pb5GD03cUw" name="setBezeichnung(bezeichnung : String) : void"/>
+    <ownedOperation xmi:type="uml:Operation" xmi:id="__9bKUD8xEfG6Pb5GD03cUw" name="getSemester() : String"/>
+    <ownedOperation xmi:type="uml:Operation" xmi:id="_CqktED8yEfG6Pb5GD03cUw" name="setSemester(semester : String) : void"/>
+    <ownedOperation xmi:type="uml:Operation" xmi:id="_FBgIMD8yEfG6Pb5GD03cUw" name="getBeschreibung() : String"/>
+    <ownedOperation xmi:type="uml:Operation" xmi:id="_Gy2xED8yEfG6Pb5GD03cUw" name="setBeschreibung(beschreibung : String) : void"/>
+    <ownedOperation xmi:type="uml:Operation" xmi:id="_IyCakD8yEfG6Pb5GD03cUw" name="getKreditpunkte() : int"/>
+    <ownedOperation xmi:type="uml:Operation" xmi:id="_K2bUMD8yEfG6Pb5GD03cUw" name="setKreditpunkte(kreditpunkte : int) : void"/>
+    <nestedClassifier xmi:type="uml:DataType" xmi:id="_uGW3kD8wEfG6Pb5GD03cUw" name="int"/>
+    <nestedClassifier xmi:type="uml:DataType" xmi:id="_6jJvcD8wEfG6Pb5GD03cUw" name="String"/>
+    <nestedClassifier xmi:type="uml:DataType" xmi:id="_CEs1UD8xEfG6Pb5GD03cUw" name="String"/>
+    <nestedClassifier xmi:type="uml:DataType" xmi:id="_Pr3OkD8xEfG6Pb5GD03cUw" name="String"/>
+    <nestedClassifier xmi:type="uml:DataType" xmi:id="_ioaYID8xEfG6Pb5GD03cUw" name="int"/>
+    <nestedClassifier xmi:type="uml:PrimitiveType" xmi:id="_CG_asD85EfG6Pb5GD03cUw" name=""/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Class" xmi:id="_xbrisD8yEfG6Pb5GD03cUw" name="Termin" visibility="public">
+    <ownedAttribute xmi:type="uml:Property" xmi:id="_2uguQD8yEfG6Pb5GD03cUw" name="terminId" visibility="private" type="_8Op9ED8yEfG6Pb5GD03cUw"/>
+    <ownedAttribute xmi:type="uml:Property" xmi:id="_-zLvUD8yEfG6Pb5GD03cUw" name="titel" visibility="private" type="_CHnUgD8zEfG6Pb5GD03cUw" isUnique="false"/>
+    <ownedAttribute xmi:type="uml:Property" xmi:id="_EuaXoD8zEfG6Pb5GD03cUw" name="datum" visibility="private" type="_IFfoMD8zEfG6Pb5GD03cUw" isUnique="false"/>
+    <ownedAttribute xmi:type="uml:Property" xmi:id="_MS3AgD8zEfG6Pb5GD03cUw" name="uhrzeit" visibility="private" type="_PbBrUD8zEfG6Pb5GD03cUw" isUnique="false"/>
+    <ownedAttribute xmi:type="uml:Property" xmi:id="_XXd9cD8zEfG6Pb5GD03cUw" name="dauer" visibility="private" type="_aT5SUD8zEfG6Pb5GD03cUw" isUnique="false"/>
+    <ownedAttribute xmi:type="uml:Property" xmi:id="_chRv4D8zEfG6Pb5GD03cUw" name="typ" visibility="private" type="_gQfzoD8zEfG6Pb5GD03cUw" isUnique="false"/>
+    <ownedAttribute xmi:type="uml:Property" xmi:id="_iIVfAD8zEfG6Pb5GD03cUw" name="notiz" visibility="private" type="_meUn0D8zEfG6Pb5GD03cUw" isUnique="false">
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_lG3FoD8zEfG6Pb5GD03cUw" name="LiteralInteger1"/>
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_lG3ssD8zEfG6Pb5GD03cUw" name="LiteralUnlimitedNatural1" value="1"/>
+    </ownedAttribute>
+    <ownedOperation xmi:type="uml:Operation" xmi:id="_sPzeQD8zEfG6Pb5GD03cUw" name="Termin(terminId : int, titel : String, datum : Date, uhrzeit : Time, dauer : int, typ : String, notiz : String)"/>
+    <ownedOperation xmi:type="uml:Operation" xmi:id="_vAdA8D8zEfG6Pb5GD03cUw" name="getTerminId() : int"/>
+    <ownedOperation xmi:type="uml:Operation" xmi:id="_xLvMwD8zEfG6Pb5GD03cUw" name="getTitel() : String"/>
+    <ownedOperation xmi:type="uml:Operation" xmi:id="_zO1F4D8zEfG6Pb5GD03cUw" name="setTitel(titel : String) : void"/>
+    <ownedOperation xmi:type="uml:Operation" xmi:id="_1sL5ID8zEfG6Pb5GD03cUw" name="getDatum() : Date"/>
+    <ownedOperation xmi:type="uml:Operation" xmi:id="_4M47UD8zEfG6Pb5GD03cUw" name="setDatum(datum : Date) : void"/>
+    <ownedOperation xmi:type="uml:Operation" xmi:id="_6AJBoD8zEfG6Pb5GD03cUw" name="getUhrzeit() : Time"/>
+    <ownedOperation xmi:type="uml:Operation" xmi:id="_7gQwkD8zEfG6Pb5GD03cUw" name="setUhrzeit(uhrzeit : Time) : void"/>
+    <ownedOperation xmi:type="uml:Operation" xmi:id="_9PfSgD8zEfG6Pb5GD03cUw" name="getDauer() : int"/>
+    <ownedOperation xmi:type="uml:Operation" xmi:id="__ByWkD8zEfG6Pb5GD03cUw" name="setDauer(dauer : int) : void"/>
+    <ownedOperation xmi:type="uml:Operation" xmi:id="_AYecsD80EfG6Pb5GD03cUw" name="getTyp() : String"/>
+    <ownedOperation xmi:type="uml:Operation" xmi:id="_CKoW0D80EfG6Pb5GD03cUw" name="setTyp(typ : String) : void"/>
+    <ownedOperation xmi:type="uml:Operation" xmi:id="_Dw1foD80EfG6Pb5GD03cUw" name="getNotiz() : String"/>
+    <ownedOperation xmi:type="uml:Operation" xmi:id="_FSdqcD80EfG6Pb5GD03cUw" name="setNotiz(notiz : String) : void"/>
+    <nestedClassifier xmi:type="uml:DataType" xmi:id="_8Op9ED8yEfG6Pb5GD03cUw" name="int"/>
+    <nestedClassifier xmi:type="uml:DataType" xmi:id="_CHnUgD8zEfG6Pb5GD03cUw" name="String"/>
+    <nestedClassifier xmi:type="uml:DataType" xmi:id="_IFfoMD8zEfG6Pb5GD03cUw" name="Date"/>
+    <nestedClassifier xmi:type="uml:DataType" xmi:id="_PbBrUD8zEfG6Pb5GD03cUw" name="Time"/>
+    <nestedClassifier xmi:type="uml:DataType" xmi:id="_aT5SUD8zEfG6Pb5GD03cUw" name="int"/>
+    <nestedClassifier xmi:type="uml:DataType" xmi:id="_gQfzoD8zEfG6Pb5GD03cUw" name="String"/>
+    <nestedClassifier xmi:type="uml:DataType" xmi:id="_meUn0D8zEfG6Pb5GD03cUw" name="String"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Class" xmi:id="_tYWlQD80EfG6Pb5GD03cUw" name="Lernblock" visibility="public">
+    <ownedAttribute xmi:type="uml:Property" xmi:id="_0VGU8D80EfG6Pb5GD03cUw" name="lernblockId" visibility="private" type="_42Fz4D80EfG6Pb5GD03cUw"/>
+    <ownedAttribute xmi:type="uml:Property" xmi:id="_9Osy4D80EfG6Pb5GD03cUw" name="datum" visibility="private" type="_Ab2rYD81EfG6Pb5GD03cUw" isUnique="false"/>
+    <ownedAttribute xmi:type="uml:Property" xmi:id="_Ctpu4D81EfG6Pb5GD03cUw" name="startzeit" visibility="private" type="_GPfd8D81EfG6Pb5GD03cUw" isUnique="false"/>
+    <ownedAttribute xmi:type="uml:Property" xmi:id="_I9QrwD81EfG6Pb5GD03cUw" name="dauer" visibility="private" type="_MR6TYD81EfG6Pb5GD03cUw" isUnique="false"/>
+    <ownedAttribute xmi:type="uml:Property" xmi:id="_PDbYwD81EfG6Pb5GD03cUw" name="thema" visibility="private" type="_SHSyYD81EfG6Pb5GD03cUw" isUnique="false"/>
+    <ownedOperation xmi:type="uml:Operation" xmi:id="_U134gD81EfG6Pb5GD03cUw" name=" Lernblock(lernblockId : int, datum : Date, startzeit : Time, dauer : int, thema : String)"/>
+    <ownedOperation xmi:type="uml:Operation" xmi:id="_XKx6YD81EfG6Pb5GD03cUw" name="getLernblockId() : int"/>
+    <ownedOperation xmi:type="uml:Operation" xmi:id="_YuyDwD81EfG6Pb5GD03cUw" name="getDatum() : Date"/>
+    <ownedOperation xmi:type="uml:Operation" xmi:id="_aUs4sD81EfG6Pb5GD03cUw" name="setDatum(datum : Date) : void"/>
+    <ownedOperation xmi:type="uml:Operation" xmi:id="_b2bKID81EfG6Pb5GD03cUw" name="getStartzeit() : Time"/>
+    <ownedOperation xmi:type="uml:Operation" xmi:id="_d1NyED81EfG6Pb5GD03cUw" name="setStartzeit(startzeit : Time) : void"/>
+    <ownedOperation xmi:type="uml:Operation" xmi:id="_hLWncD81EfG6Pb5GD03cUw" name="getDauer() : int"/>
+    <ownedOperation xmi:type="uml:Operation" xmi:id="_jFCF4D81EfG6Pb5GD03cUw" name="setDauer(dauer : int) : void"/>
+    <ownedOperation xmi:type="uml:Operation" xmi:id="_koYvAD81EfG6Pb5GD03cUw" name="getThema() : String"/>
+    <ownedOperation xmi:type="uml:Operation" xmi:id="_mST6MD81EfG6Pb5GD03cUw" name="setThema(thema : String) : void"/>
+    <nestedClassifier xmi:type="uml:DataType" xmi:id="_42Fz4D80EfG6Pb5GD03cUw" name="int"/>
+    <nestedClassifier xmi:type="uml:DataType" xmi:id="_Ab2rYD81EfG6Pb5GD03cUw" name="Date"/>
+    <nestedClassifier xmi:type="uml:DataType" xmi:id="_GPfd8D81EfG6Pb5GD03cUw" name="Time"/>
+    <nestedClassifier xmi:type="uml:DataType" xmi:id="_MR6TYD81EfG6Pb5GD03cUw" name="int"/>
+    <nestedClassifier xmi:type="uml:DataType" xmi:id="_SHSyYD81EfG6Pb5GD03cUw" name="String"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Class" xmi:id="_49hcID81EfG6Pb5GD03cUw" name="Erinnerungen" visibility="public">
+    <ownedAttribute xmi:type="uml:Property" xmi:id="_EYS2UD82EfG6Pb5GD03cUw" name="erinnerungId" visibility="private" type="_IgQKMD82EfG6Pb5GD03cUw"/>
+    <ownedAttribute xmi:type="uml:Property" xmi:id="_LuJpkD82EfG6Pb5GD03cUw" name="vorlauf" visibility="private" type="_PqUkMD82EfG6Pb5GD03cUw" isUnique="false"/>
+    <ownedAttribute xmi:type="uml:Property" xmi:id="_R71T0D82EfG6Pb5GD03cUw" name="aktiv" visibility="private" type="_VgmbED82EfG6Pb5GD03cUw" isUnique="false"/>
+    <ownedOperation xmi:type="uml:Operation" xmi:id="_ZTRbcD82EfG6Pb5GD03cUw" name="Erinnerung(erinnerungId : int, vorlauf : int, aktiv : boolean)"/>
+    <ownedOperation xmi:type="uml:Operation" xmi:id="_ba4oMD82EfG6Pb5GD03cUw" name="getErinnerungId() : int"/>
+    <ownedOperation xmi:type="uml:Operation" xmi:id="_diDwED82EfG6Pb5GD03cUw" name="getVorlauf() : int"/>
+    <ownedOperation xmi:type="uml:Operation" xmi:id="_hMrAoD82EfG6Pb5GD03cUw" name="setVorlauf(vorlauf : int) : void"/>
+    <ownedOperation xmi:type="uml:Operation" xmi:id="_jOjY0D82EfG6Pb5GD03cUw" name="isAktiv() : boolean"/>
+    <ownedOperation xmi:type="uml:Operation" xmi:id="_lKycAD82EfG6Pb5GD03cUw" name="setAktiv(aktiv : boolean) : void"/>
+    <nestedClassifier xmi:type="uml:DataType" xmi:id="_IgQKMD82EfG6Pb5GD03cUw" name="int"/>
+    <nestedClassifier xmi:type="uml:DataType" xmi:id="_PqUkMD82EfG6Pb5GD03cUw" name="int"/>
+    <nestedClassifier xmi:type="uml:DataType" xmi:id="_VgmbED82EfG6Pb5GD03cUw" name="boolean"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Association" xmi:id="_I0PyUD84EfG6Pb5GD03cUw" memberEnd="_I0V48D84EfG6Pb5GD03cUw _I0XHET84EfG6Pb5GD03cUw">
+    <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_I0Uq0D84EfG6Pb5GD03cUw" source="org.eclipse.papyrus">
+      <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_I0Uq0T84EfG6Pb5GD03cUw" key="nature" value="UML_Nature"/>
+    </eAnnotations>
+    <ownedEnd xmi:type="uml:Property" xmi:id="_I0XHET84EfG6Pb5GD03cUw" name="studyplaner" type="__ALmUD8uEfG6Pb5GD03cUw" association="_I0PyUD84EfG6Pb5GD03cUw">
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_jhqv0D87EfG6Pb5GD03cUw" name="LiteralInteger1" value="1"/>
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_jhrW4D87EfG6Pb5GD03cUw" name="LiteralUnlimitedNatural1" value="1"/>
+    </ownedEnd>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Association" xmi:id="_SFZNkD84EfG6Pb5GD03cUw" memberEnd="_SFabsj84EfG6Pb5GD03cUw _SFbCwj84EfG6Pb5GD03cUw">
+    <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_SFabsD84EfG6Pb5GD03cUw" source="org.eclipse.papyrus">
+      <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_SFabsT84EfG6Pb5GD03cUw" key="nature" value="UML_Nature"/>
+    </eAnnotations>
+    <ownedEnd xmi:type="uml:Property" xmi:id="_SFbCwj84EfG6Pb5GD03cUw" name="studyplanner" type="__ALmUD8uEfG6Pb5GD03cUw" association="_SFZNkD84EfG6Pb5GD03cUw"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Association" xmi:id="_Ue9tAD84EfG6Pb5GD03cUw" memberEnd="_Ue-UEj84EfG6Pb5GD03cUw _Ue-7Ij84EfG6Pb5GD03cUw">
+    <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_Ue-UED84EfG6Pb5GD03cUw" source="org.eclipse.papyrus">
+      <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_Ue-UET84EfG6Pb5GD03cUw" key="nature" value="UML_Nature"/>
+    </eAnnotations>
+    <ownedEnd xmi:type="uml:Property" xmi:id="_Ue-7Ij84EfG6Pb5GD03cUw" name="studyplanner" type="__ALmUD8uEfG6Pb5GD03cUw" association="_Ue9tAD84EfG6Pb5GD03cUw"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Association" xmi:id="_X9MucD84EfG6Pb5GD03cUw" memberEnd="_X9NVgj84EfG6Pb5GD03cUw _X9N8kj84EfG6Pb5GD03cUw">
+    <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_X9NVgD84EfG6Pb5GD03cUw" source="org.eclipse.papyrus">
+      <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_X9NVgT84EfG6Pb5GD03cUw" key="nature" value="UML_Nature"/>
+    </eAnnotations>
+    <ownedEnd xmi:type="uml:Property" xmi:id="_X9N8kj84EfG6Pb5GD03cUw" name="studyplanner" type="__ALmUD8uEfG6Pb5GD03cUw" association="_X9MucD84EfG6Pb5GD03cUw"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Association" xmi:id="_7M6kgD84EfG6Pb5GD03cUw" memberEnd="_7M7Lkj84EfG6Pb5GD03cUw _7M8ZsD84EfG6Pb5GD03cUw">
+    <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_7M7LkD84EfG6Pb5GD03cUw" source="org.eclipse.papyrus">
+      <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_7M7LkT84EfG6Pb5GD03cUw" key="nature" value="UML_Nature"/>
+    </eAnnotations>
+    <ownedEnd xmi:type="uml:Property" xmi:id="_7M7Lkj84EfG6Pb5GD03cUw" name="modul" type="_erH4oD8wEfG6Pb5GD03cUw" association="_7M6kgD84EfG6Pb5GD03cUw"/>
+    <ownedEnd xmi:type="uml:Property" xmi:id="_7M8ZsD84EfG6Pb5GD03cUw" name="termin" type="_xbrisD8yEfG6Pb5GD03cUw" association="_7M6kgD84EfG6Pb5GD03cUw">
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_KnPdID88EfG6Pb5GD03cUw" name="LiteralInteger1"/>
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_KnQEMD88EfG6Pb5GD03cUw" name="LiteralUnlimitedNatural1" value="*"/>
+    </ownedEnd>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Association" xmi:id="_Reo6ID85EfG6Pb5GD03cUw" memberEnd="_ReqIQj85EfG6Pb5GD03cUw _Rer9cD85EfG6Pb5GD03cUw">
+    <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_ReqIQD85EfG6Pb5GD03cUw" source="org.eclipse.papyrus">
+      <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_ReqIQT85EfG6Pb5GD03cUw" key="nature" value="UML_Nature"/>
+    </eAnnotations>
+    <ownedEnd xmi:type="uml:Property" xmi:id="_ReqIQj85EfG6Pb5GD03cUw" name="modul" type="_erH4oD8wEfG6Pb5GD03cUw" association="_Reo6ID85EfG6Pb5GD03cUw"/>
+    <ownedEnd xmi:type="uml:Property" xmi:id="_Rer9cD85EfG6Pb5GD03cUw" name="lernblock" type="_tYWlQD80EfG6Pb5GD03cUw" association="_Reo6ID85EfG6Pb5GD03cUw">
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_ONbgsD88EfG6Pb5GD03cUw" name="LiteralInteger1"/>
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_ONcHwD88EfG6Pb5GD03cUw" name="LiteralUnlimitedNatural1" value="*"/>
+    </ownedEnd>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Association" xmi:id="_T6RPED85EfG6Pb5GD03cUw" memberEnd="_T6SdMj85EfG6Pb5GD03cUw _T6TEQD85EfG6Pb5GD03cUw">
+    <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_T6SdMD85EfG6Pb5GD03cUw" source="org.eclipse.papyrus">
+      <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_T6SdMT85EfG6Pb5GD03cUw" key="nature" value="UML_Nature"/>
+    </eAnnotations>
+    <ownedEnd xmi:type="uml:Property" xmi:id="_T6SdMj85EfG6Pb5GD03cUw" name="erinnerungen" type="_49hcID81EfG6Pb5GD03cUw" association="_T6RPED85EfG6Pb5GD03cUw">
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_xi85QD87EfG6Pb5GD03cUw" name="LiteralInteger1"/>
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_xi9gUD87EfG6Pb5GD03cUw" name="LiteralUnlimitedNatural1" value="*"/>
+    </ownedEnd>
+    <ownedEnd xmi:type="uml:Property" xmi:id="_T6TEQD85EfG6Pb5GD03cUw" name="termin" type="_xbrisD8yEfG6Pb5GD03cUw" association="_T6RPED85EfG6Pb5GD03cUw"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Association" xmi:id="_c4Rr4D85EfG6Pb5GD03cUw" memberEnd="_c4S6AT85EfG6Pb5GD03cUw _c4ThED85EfG6Pb5GD03cUw">
+    <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_c4SS8D85EfG6Pb5GD03cUw" source="org.eclipse.papyrus">
+      <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_c4S6AD85EfG6Pb5GD03cUw" key="nature" value="UML_Nature"/>
+    </eAnnotations>
+    <ownedEnd xmi:type="uml:Property" xmi:id="_c4S6AT85EfG6Pb5GD03cUw" name="lernblock" type="_tYWlQD80EfG6Pb5GD03cUw" association="_c4Rr4D85EfG6Pb5GD03cUw"/>
+    <ownedEnd xmi:type="uml:Property" xmi:id="_c4ThED85EfG6Pb5GD03cUw" name="erinnerungen" type="_49hcID81EfG6Pb5GD03cUw" association="_c4Rr4D85EfG6Pb5GD03cUw">
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_zrG4kD87EfG6Pb5GD03cUw" name="LiteralInteger1"/>
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_zrHfoD87EfG6Pb5GD03cUw" name="LiteralUnlimitedNatural1" value="*"/>
+    </ownedEnd>
+  </packagedElement>
+</uml:Model>
