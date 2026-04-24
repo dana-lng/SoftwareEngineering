@@ -315,4 +315,85 @@
       <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_zrHfoD87EfG6Pb5GD03cUw" name="LiteralUnlimitedNatural1" value="*"/>
     </ownedEnd>
   </packagedElement>
+  <packagedElement xmi:type="uml:Package" xmi:id="_hc8rUD_FEfG6Pb5GD03cUw" name="Study-Planner-Anwendung">
+    <packagedElement xmi:type="uml:Component" xmi:id="_u_tFsD_FEfG6Pb5GD03cUw" name="Benutzeroberfläche">
+      <packagedElement xmi:type="uml:Dependency" xmi:id="_1iY6ID_GEfG6Pb5GD03cUw" client="_u_tFsD_FEfG6Pb5GD03cUw" supplier="_3w9f8D_FEfG6Pb5GD03cUw"/>
+      <packagedElement xmi:type="uml:Component" xmi:id="_PkQEED_IEfG6Pb5GD03cUw" name="Component2"/>
+      <packagedElement xmi:type="uml:Component" xmi:id="_RIxK0D_IEfG6Pb5GD03cUw" name="Modulansicht">
+        <packagedElement xmi:type="uml:Dependency" xmi:id="_xk6lsD_LEfG6Pb5GD03cUw" client="_RIxK0D_IEfG6Pb5GD03cUw" supplier="_zZxV4D_IEfG6Pb5GD03cUw"/>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Component" xmi:id="_ZEYWgD_IEfG6Pb5GD03cUw" name="Terminanssicht">
+        <packagedElement xmi:type="uml:Dependency" xmi:id="_1sh7UD_LEfG6Pb5GD03cUw" client="_ZEYWgD_IEfG6Pb5GD03cUw" supplier="_1cW4sD_IEfG6Pb5GD03cUw"/>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Component" xmi:id="_eplEcD_IEfG6Pb5GD03cUw" name="Lernblockansicht">
+        <packagedElement xmi:type="uml:Dependency" xmi:id="_6jPyoD_LEfG6Pb5GD03cUw" client="_eplEcD_IEfG6Pb5GD03cUw" supplier="_4lfM0D_IEfG6Pb5GD03cUw"/>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Component" xmi:id="_iETe4D_IEfG6Pb5GD03cUw" name="Kalenderansicht">
+        <packagedElement xmi:type="uml:Dependency" xmi:id="_-iczID_LEfG6Pb5GD03cUw" client="_iETe4D_IEfG6Pb5GD03cUw" supplier="_KzZSQD_KEfG6Pb5GD03cUw"/>
+      </packagedElement>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Component" xmi:id="_3w9f8D_FEfG6Pb5GD03cUw" name="Anwendungslogik">
+      <packagedElement xmi:type="uml:Dependency" xmi:id="_8OovsD_GEfG6Pb5GD03cUw" client="_3w9f8D_FEfG6Pb5GD03cUw" supplier="_9aFEkD_FEfG6Pb5GD03cUw"/>
+      <packagedElement xmi:type="uml:Dependency" xmi:id="_866m4D_GEfG6Pb5GD03cUw" client="_3w9f8D_FEfG6Pb5GD03cUw" supplier="_ETsAsD_GEfG6Pb5GD03cUw"/>
+      <packagedElement xmi:type="uml:Component" xmi:id="_xVjbYD_IEfG6Pb5GD03cUw" name="Studyplanner"/>
+      <packagedElement xmi:type="uml:Component" xmi:id="_zZxV4D_IEfG6Pb5GD03cUw" name="Modulverwaltung"/>
+      <packagedElement xmi:type="uml:Component" xmi:id="_1cW4sD_IEfG6Pb5GD03cUw" name="Terminverwaltung"/>
+      <packagedElement xmi:type="uml:Component" xmi:id="_4lfM0D_IEfG6Pb5GD03cUw" name="Lernblockverwaltung"/>
+      <packagedElement xmi:type="uml:Component" xmi:id="_KzZSQD_KEfG6Pb5GD03cUw" name="Filterlogik"/>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Component" xmi:id="_9aFEkD_FEfG6Pb5GD03cUw" name="Persistenz">
+      <packagedElement xmi:type="uml:Dependency" xmi:id="_roWoAD_IEfG6Pb5GD03cUw" client="_9aFEkD_FEfG6Pb5GD03cUw" supplier="_Qq6cED_GEfG6Pb5GD03cUw"/>
+      <packagedElement xmi:type="uml:Component" xmi:id="_BPd6YD_JEfG6Pb5GD03cUw" name="Speichern"/>
+      <packagedElement xmi:type="uml:Component" xmi:id="_DiAkwD_JEfG6Pb5GD03cUw" name="Laden"/>
+      <packagedElement xmi:type="uml:Component" xmi:id="_FGcL8D_JEfG6Pb5GD03cUw" name="ImportUndExport"/>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Component" xmi:id="_ETsAsD_GEfG6Pb5GD03cUw" name="Erinnerungslogik.">
+      <packagedElement xmi:type="uml:Dependency" xmi:id="_-O1F0D_GEfG6Pb5GD03cUw" client="_ETsAsD_GEfG6Pb5GD03cUw" supplier="_XxBjID_GEfG6Pb5GD03cUw"/>
+      <packagedElement xmi:type="uml:Component" xmi:id="_NbqKcD_JEfG6Pb5GD03cUw" name="Erinnerungen prüfen"/>
+      <packagedElement xmi:type="uml:Component" xmi:id="_RDDu8D_JEfG6Pb5GD03cUw" name="Benachrichtigung auslösen"/>
+    </packagedElement>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Component" xmi:id="_Qq6cED_GEfG6Pb5GD03cUw" name="Dateisystem"/>
+  <packagedElement xmi:type="uml:Component" xmi:id="_XxBjID_GEfG6Pb5GD03cUw" name="Systemzeit"/>
+  <packagedElement xmi:type="uml:Interaction" xmi:id="_hTFOkD_OEfG6Pb5GD03cUw" name="AF02_Termine_erfassen">
+    <lifeline xmi:type="uml:Lifeline" xmi:id="_5dF7gD_OEfG6Pb5GD03cUw" name="Studierende" coveredBy="_ZVBWYD_PEfG6Pb5GD03cUw"/>
+    <lifeline xmi:type="uml:Lifeline" xmi:id="_9zD2MD_OEfG6Pb5GD03cUw" name="Terminansicht" coveredBy="_ZVDLkD_PEfG6Pb5GD03cUw _qIn2cD_PEfG6Pb5GD03cUw _o3JVkD_REfG6Pb5GD03cUw"/>
+    <lifeline xmi:type="uml:Lifeline" xmi:id="__mMnwD_OEfG6Pb5GD03cUw" name="TerminBearbeitung" coveredBy="_qIpEkD_PEfG6Pb5GD03cUw _5Ezh4D_PEfG6Pb5GD03cUw __nFtsD_QEfG6Pb5GD03cUw _o3IugD_REfG6Pb5GD03cUw"/>
+    <lifeline xmi:type="uml:Lifeline" xmi:id="_DP9jwD_PEfG6Pb5GD03cUw" name="TerminVerwaltung" coveredBy="_5E0I8D_PEfG6Pb5GD03cUw __OdnwD_PEfG6Pb5GD03cUw _vpRmID_QEfG6Pb5GD03cUw __nFGoD_QEfG6Pb5GD03cUw"/>
+    <lifeline xmi:type="uml:Lifeline" xmi:id="_GOfKYD_PEfG6Pb5GD03cUw" name="SpeicherService" coveredBy="_OdmrcD_QEfG6Pb5GD03cUw __OeO0D_PEfG6Pb5GD03cUw _gG1zAD_QEfG6Pb5GD03cUw _vpQYAD_QEfG6Pb5GD03cUw"/>
+    <lifeline xmi:type="uml:Lifeline" xmi:id="_IzYJAD_PEfG6Pb5GD03cUw" name="Dateisystem" coveredBy="_Odn5kD_QEfG6Pb5GD03cUw _gG0k4D_QEfG6Pb5GD03cUw"/>
+    <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_OdmrcD_QEfG6Pb5GD03cUw" name="Message19SendEvent" covered="_GOfKYD_PEfG6Pb5GD03cUw" message="_OdhL4D_QEfG6Pb5GD03cUw"/>
+    <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_ZVDLkD_PEfG6Pb5GD03cUw" name="Message7ReceiveEvent" covered="_9zD2MD_OEfG6Pb5GD03cUw" message="_ZUvCgD_PEfG6Pb5GD03cUw"/>
+    <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_qIpEkD_PEfG6Pb5GD03cUw" name="Message10ReceiveEvent" covered="__mMnwD_OEfG6Pb5GD03cUw" message="_qImBQD_PEfG6Pb5GD03cUw"/>
+    <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_5E0I8D_PEfG6Pb5GD03cUw" name="Message13ReceiveEvent" covered="_DP9jwD_PEfG6Pb5GD03cUw" message="_5ExFoD_PEfG6Pb5GD03cUw"/>
+    <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="__OeO0D_PEfG6Pb5GD03cUw" name="Message16ReceiveEvent" covered="_GOfKYD_PEfG6Pb5GD03cUw" message="__ObykD_PEfG6Pb5GD03cUw"/>
+    <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_Odn5kD_QEfG6Pb5GD03cUw" name="Message19ReceiveEvent" covered="_IzYJAD_PEfG6Pb5GD03cUw" message="_OdhL4D_QEfG6Pb5GD03cUw"/>
+    <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="__OdnwD_PEfG6Pb5GD03cUw" name="Message16SendEvent" covered="_DP9jwD_PEfG6Pb5GD03cUw" message="__ObykD_PEfG6Pb5GD03cUw"/>
+    <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_ZVBWYD_PEfG6Pb5GD03cUw" name="Message7SendEvent" covered="_5dF7gD_OEfG6Pb5GD03cUw" message="_ZUvCgD_PEfG6Pb5GD03cUw"/>
+    <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_qIn2cD_PEfG6Pb5GD03cUw" name="Message10SendEvent" covered="_9zD2MD_OEfG6Pb5GD03cUw" message="_qImBQD_PEfG6Pb5GD03cUw"/>
+    <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_5Ezh4D_PEfG6Pb5GD03cUw" name="Message13SendEvent" covered="__mMnwD_OEfG6Pb5GD03cUw" message="_5ExFoD_PEfG6Pb5GD03cUw"/>
+    <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_gG0k4D_QEfG6Pb5GD03cUw" name="Message22SendEvent" covered="_IzYJAD_PEfG6Pb5GD03cUw" message="_gGyvsD_QEfG6Pb5GD03cUw"/>
+    <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_gG1zAD_QEfG6Pb5GD03cUw" name="Message22ReceiveEvent" covered="_GOfKYD_PEfG6Pb5GD03cUw" message="_gGyvsD_QEfG6Pb5GD03cUw"/>
+    <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_vpQYAD_QEfG6Pb5GD03cUw" name="Message25SendEvent" covered="_GOfKYD_PEfG6Pb5GD03cUw" message="_vpOi0D_QEfG6Pb5GD03cUw"/>
+    <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_vpRmID_QEfG6Pb5GD03cUw" name="Message25ReceiveEvent" covered="_DP9jwD_PEfG6Pb5GD03cUw" message="_vpOi0D_QEfG6Pb5GD03cUw"/>
+    <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="__nFGoD_QEfG6Pb5GD03cUw" name="Message28SendEvent" covered="_DP9jwD_PEfG6Pb5GD03cUw" message="__nDRcD_QEfG6Pb5GD03cUw"/>
+    <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="__nFtsD_QEfG6Pb5GD03cUw" name="Message28ReceiveEvent" covered="__mMnwD_OEfG6Pb5GD03cUw" message="__nDRcD_QEfG6Pb5GD03cUw"/>
+    <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_o3IugD_REfG6Pb5GD03cUw" name="Message31SendEvent" covered="__mMnwD_OEfG6Pb5GD03cUw" message="_o3FrMD_REfG6Pb5GD03cUw"/>
+    <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_o3JVkD_REfG6Pb5GD03cUw" name="Message31ReceiveEvent" covered="_9zD2MD_OEfG6Pb5GD03cUw" message="_o3FrMD_REfG6Pb5GD03cUw"/>
+    <message xmi:type="uml:Message" xmi:id="_ZUvCgD_PEfG6Pb5GD03cUw" name="neuerTermin()" receiveEvent="_ZVDLkD_PEfG6Pb5GD03cUw" sendEvent="_ZVBWYD_PEfG6Pb5GD03cUw"/>
+    <message xmi:type="uml:Message" xmi:id="_qImBQD_PEfG6Pb5GD03cUw" name="oeffneDialog()" receiveEvent="_qIpEkD_PEfG6Pb5GD03cUw" sendEvent="_qIn2cD_PEfG6Pb5GD03cUw"/>
+    <message xmi:type="uml:Message" xmi:id="_5ExFoD_PEfG6Pb5GD03cUw" name="speichereTermin(daten)" receiveEvent="_5E0I8D_PEfG6Pb5GD03cUw" sendEvent="_5Ezh4D_PEfG6Pb5GD03cUw"/>
+    <message xmi:type="uml:Message" xmi:id="__ObykD_PEfG6Pb5GD03cUw" name="speichereTermin(termin)" receiveEvent="__OeO0D_PEfG6Pb5GD03cUw" sendEvent="__OdnwD_PEfG6Pb5GD03cUw"/>
+    <message xmi:type="uml:Message" xmi:id="_OdhL4D_QEfG6Pb5GD03cUw" name="schreibeDatei()" receiveEvent="_Odn5kD_QEfG6Pb5GD03cUw" sendEvent="_OdmrcD_QEfG6Pb5GD03cUw"/>
+    <message xmi:type="uml:Message" xmi:id="_gGyvsD_QEfG6Pb5GD03cUw" name="dateiGespeichert()" messageSort="reply" receiveEvent="_gG1zAD_QEfG6Pb5GD03cUw" sendEvent="_gG0k4D_QEfG6Pb5GD03cUw"/>
+    <message xmi:type="uml:Message" xmi:id="_vpOi0D_QEfG6Pb5GD03cUw" name="speichernErfolgreich()" messageSort="reply" receiveEvent="_vpRmID_QEfG6Pb5GD03cUw" sendEvent="_vpQYAD_QEfG6Pb5GD03cUw"/>
+    <message xmi:type="uml:Message" xmi:id="__nDRcD_QEfG6Pb5GD03cUw" name="terminGespeichert()" messageSort="reply" receiveEvent="__nFtsD_QEfG6Pb5GD03cUw" sendEvent="__nFGoD_QEfG6Pb5GD03cUw"/>
+    <message xmi:type="uml:Message" xmi:id="_o3FrMD_REfG6Pb5GD03cUw" name="aktualisiereAnsicht()" receiveEvent="_o3JVkD_REfG6Pb5GD03cUw" sendEvent="_o3IugD_REfG6Pb5GD03cUw"/>
+  </packagedElement>
+  <profileApplication xmi:type="uml:ProfileApplication" xmi:id="_KVN6wD_FEfG6Pb5GD03cUw">
+    <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_KVV2kD_FEfG6Pb5GD03cUw" source="http://www.eclipse.org/uml2/2.0.0/UML">
+      <references xmi:type="ecore:EPackage" href="pathmap://PAPYRUS_ACTIONLANGUAGE_PROFILE/ActionLanguage-Profile.profile.uml#_Kv8EIKFXEeS_KNX0nfvIVQ"/>
+    </eAnnotations>
+    <appliedProfile xmi:type="uml:Profile" href="pathmap://PAPYRUS_ACTIONLANGUAGE_PROFILE/ActionLanguage-Profile.profile.uml#ActionLanguage"/>
+  </profileApplication>
 </uml:Model>
