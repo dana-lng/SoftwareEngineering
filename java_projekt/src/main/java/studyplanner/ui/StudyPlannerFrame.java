@@ -1,14 +1,34 @@
 package studyplanner.ui;
 
-import studyplanner.model.Erinnerung;
-import studyplanner.model.Lernblock;
-import studyplanner.model.Modul;
-import studyplanner.model.Termin;
-import studyplanner.service.StudyService;
-import studyplanner.service.StudyService.FaelligeErinnerung;
-import studyplanner.service.StudyService.KalenderEintrag;
+import java.awt.BorderLayout;
+import java.awt.CardLayout;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Cursor;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 import javax.swing.BorderFactory;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
@@ -18,30 +38,23 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
-import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SpinnerDateModel;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.Timer;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableModel;
-import java.awt.BorderLayout;
-import java.awt.FlowLayout;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Insets;
-import java.time.DayOfWeek;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+
+import studyplanner.model.Erinnerung;
+import studyplanner.model.Lernblock;
+import studyplanner.model.Modul;
+import studyplanner.model.Termin;
+import studyplanner.service.StudyService;
+import studyplanner.service.StudyService.FaelligeErinnerung;
+import studyplanner.service.StudyService.KalenderEintrag;
 
 /**
  * Hauptfenster der Study-Planner-Anwendung.
@@ -50,6 +63,10 @@ public class StudyPlannerFrame extends JFrame {
     private static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ISO_LOCAL_DATE;
     private static final DateTimeFormatter TIME_FORMAT = DateTimeFormatter.ofPattern("HH:mm");
     private static final DateTimeFormatter DATE_TIME_FORMAT = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm");
+    private static final Color SIDEBAR_COLOR = new Color(148, 171, 208);
+    private static final Color SIDEBAR_HOVER_COLOR = new Color(176, 195, 224);
+    private static final Color SIDEBAR_ACTIVE_COLOR = new Color(205, 218, 238);
+    private static final Color SIDEBAR_TEXT_COLOR = new Color(2, 17, 64);
 
     /**
      * Zentrale Serviceschicht fuer Datenzugriff und Logik.
@@ -57,9 +74,39 @@ public class StudyPlannerFrame extends JFrame {
     private final StudyService service;
 
     /**
-     * Tabelle fuer Module.
+     * Layout fuer den Wechsel zwischen den Hauptseiten.
      */
-    private final JTable modulTable = new JTable();
+    private final CardLayout contentLayout = new CardLayout();
+
+    /**
+     * Container fuer die Hauptseiten der Anwendung.
+     */
+    private final JPanel contentPanel = new JPanel(contentLayout);
+
+    /**
+     * Navigationsbuttons der Seitenleiste.
+     */
+    private final List<JButton> navigationButtons = new ArrayList<>();
+
+    /**
+     * Name der aktuell aktiven Seite.
+     */
+    private String activeNavigationCard = "Module";
+
+    /**
+     * Container fuer die Modul-Karten.
+     */
+    private final JPanel modulListPanel = new JPanel();
+
+    /**
+     * Suchfeld fuer die Modulansicht.
+     */
+    private final JTextField modulSearchField = new JTextField();
+
+    /**
+     * Semesterfilter fuer die Modulansicht.
+     */
+    private final JComboBox<String> modulSemesterFilter = new JComboBox<>();
 
     /**
      * Tabelle fuer Termine.
@@ -82,24 +129,9 @@ public class StudyPlannerFrame extends JFrame {
     private final JSpinner kalenderDatum = new JSpinner(new SpinnerDateModel());
 
     /**
-     * Auswahl zwischen Tages- und Wochenansicht.
-     */
-    private final JComboBox<String> kalenderModus = new JComboBox<>(new String[]{"Tag", "Woche"});
-
-    /**
      * Modulauswahl fuer den Kalenderfilter.
      */
     private final JComboBox<Object> kalenderModulFilter = new JComboBox<>();
-
-    /**
-     * Startzeitfilter der Kalenderansicht.
-     */
-    private final JTextField kalenderStartFilter = new JTextField(5);
-
-    /**
-     * Endzeitfilter der Kalenderansicht.
-     */
-    private final JTextField kalenderEndeFilter = new JTextField(5);
 
     /**
      * Checkbox fuer globale Erinnerungseinstellung.
@@ -123,16 +155,125 @@ public class StudyPlannerFrame extends JFrame {
         setSize(1000, 650);
         setLocationRelativeTo(null);
 
-        JTabbedPane tabs = new JTabbedPane();
-        tabs.addTab("Module", createModulePanel());
-        tabs.addTab("Termine", createTerminPanel());
-        tabs.addTab("Lernbloecke", createLernblockPanel());
-        tabs.addTab("Kalender", createKalenderPanel());
-        tabs.addTab("Einstellungen", createEinstellungPanel());
-        add(tabs, BorderLayout.CENTER);
+        contentPanel.add(createModulePanel(), "Module");
+        contentPanel.add(createKalenderPanel(), "Kalender");
+        contentPanel.add(createLernblockPanel(), "Lernbloecke");
+        contentPanel.add(createErinnerungPanel(), "Erinnerungen");
+        contentPanel.add(createEinstellungPanel(), "Einstellungen");
+        contentPanel.add(createTerminPanel(), "Termine");
+
+        JPanel root = new JPanel(new BorderLayout());
+        root.add(createTopBar(), BorderLayout.NORTH);
+        root.add(createSidebar(), BorderLayout.WEST);
+        root.add(contentPanel, BorderLayout.CENTER);
+        setContentPane(root);
 
         refreshAll();
         startReminderTimer();
+    }
+
+    /**
+     * Erstellt die obere Titelleiste.
+     *
+     * @return Panel fuer die Kopfleiste.
+     */
+    private JPanel createTopBar() {
+        JPanel topBar = new JPanel(new BorderLayout());
+        topBar.setBackground(new Color(151, 174, 211));
+        topBar.setBorder(BorderFactory.createEmptyBorder(8, 12, 8, 12));
+
+        JLabel title = new JLabel("Study Planner");
+        title.setForeground(Color.WHITE);
+        title.setFont(title.getFont().deriveFont(Font.BOLD, 13f));
+
+        JLabel semester = new JLabel("SS 2026");
+        semester.setForeground(Color.WHITE);
+        semester.setFont(semester.getFont().deriveFont(11f));
+
+        topBar.add(title, BorderLayout.WEST);
+        topBar.add(semester, BorderLayout.EAST);
+        return topBar;
+    }
+
+    /**
+     * Erstellt die linke Navigation.
+     *
+     * @return Navigationspanel.
+     */
+    private JPanel createSidebar() {
+        JPanel sidebar = new JPanel();
+        sidebar.setLayout(new BoxLayout(sidebar, BoxLayout.Y_AXIS));
+        sidebar.setPreferredSize(new Dimension(170, 0));
+        sidebar.setBackground(SIDEBAR_COLOR);
+        sidebar.setBorder(BorderFactory.createEmptyBorder(12, 12, 12, 12));
+
+        sidebar.add(createNavButton("•  Module", "Module", true));
+        sidebar.add(createNavButton("•  Kalender", "Kalender", false));
+        sidebar.add(createNavButton("•  Termine", "Termine", false));
+        sidebar.add(createNavButton("•  Lernbloecke", "Lernbloecke", false));
+        sidebar.add(createNavButton("•  Erinnerungen", "Erinnerungen", false));
+        sidebar.add(createNavButton("•  Einstellungen", "Einstellungen", false));
+        sidebar.add(Box.createVerticalGlue());
+        updateNavigationStyles();
+        return sidebar;
+    }
+
+    /**
+     * Erstellt einen Navigationsbutton fuer die Seitenleiste.
+     *
+     * @param label Sichtbarer Text.
+     * @param card Name der Zielseite im CardLayout.
+     * @param active Gibt an, ob der Button initial hervorgehoben ist.
+     * @return Navigationsbutton.
+     */
+    private JButton createNavButton(String label, String card, boolean active) {
+        JButton button = new JButton(label);
+        button.setAlignmentX(Component.LEFT_ALIGNMENT);
+        button.setMaximumSize(new Dimension(Integer.MAX_VALUE, 34));
+        button.setBorder(BorderFactory.createEmptyBorder(6, 8, 6, 8));
+        button.setContentAreaFilled(true);
+        button.setFocusPainted(false);
+        button.setHorizontalAlignment(JButton.LEFT);
+        button.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        button.setForeground(SIDEBAR_TEXT_COLOR);
+        button.setOpaque(true);
+        button.putClientProperty("card", card);
+        button.addActionListener(event -> {
+            activeNavigationCard = card;
+            updateNavigationStyles();
+            contentLayout.show(contentPanel, card);
+        });
+        button.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent event) {
+                if (!card.equals(activeNavigationCard)) {
+                    button.setBackground(SIDEBAR_HOVER_COLOR);
+                    button.setFont(button.getFont().deriveFont(Font.BOLD, 16f));
+                }
+            }
+
+            @Override
+            public void mouseExited(MouseEvent event) {
+                updateNavigationStyles();
+            }
+        });
+        navigationButtons.add(button);
+        if (active) {
+            activeNavigationCard = card;
+        }
+        return button;
+    }
+
+    /**
+     * Aktualisiert die Darstellung der Navigationsbuttons passend zur aktiven Seite.
+     */
+    private void updateNavigationStyles() {
+        for (JButton button : navigationButtons) {
+            Object card = button.getClientProperty("card");
+            boolean active = activeNavigationCard.equals(card);
+            button.setBackground(active ? SIDEBAR_ACTIVE_COLOR : SIDEBAR_COLOR);
+            button.setFont(button.getFont().deriveFont(active ? Font.BOLD : Font.PLAIN, active ? 18f : 16f));
+        }
     }
 
     /**
@@ -141,20 +282,67 @@ public class StudyPlannerFrame extends JFrame {
      * @return Panel mit Modultabelle und Aktionen.
      */
     private JPanel createModulePanel() {
-        JPanel panel = basePanel();
-        modulTable.setModel(new DefaultTableModel(new Object[]{"ID", "Name", "Farbe", "Notizen"}, 0) {
-            @Override
-            public boolean isCellEditable(int row, int column) {
-                return false;
-            }
-        });
-        hideIdColumn(modulTable);
-        panel.add(new JScrollPane(modulTable), BorderLayout.CENTER);
-        panel.add(buttonBar(
-                button("Neu", this::addModul),
-                button("Bearbeiten", this::editModul),
-                button("Loeschen", this::deleteModul)
-        ), BorderLayout.SOUTH);
+        JPanel panel = new JPanel(new BorderLayout(0, 18));
+        panel.setBackground(new Color(245, 245, 245));
+        panel.setBorder(BorderFactory.createEmptyBorder(22, 24, 24, 24));
+
+        JPanel header = new JPanel(new BorderLayout());
+        header.setOpaque(false);
+
+        JPanel headline = new JPanel();
+        headline.setLayout(new BoxLayout(headline, BoxLayout.Y_AXIS));
+        headline.setOpaque(false);
+
+        JLabel title = new JLabel("Module");
+        title.setForeground(new Color(0, 15, 74));
+        title.setFont(title.getFont().deriveFont(Font.BOLD, 26f));
+
+        JLabel subtitle = new JLabel("Verwalten Sie Ihre Module fuer das aktuelle Semester.");
+        subtitle.setFont(subtitle.getFont().deriveFont(13f));
+
+        headline.add(title);
+        headline.add(Box.createVerticalStrut(8));
+        headline.add(subtitle);
+
+        JButton addButton = button("+ Neues Modul", this::addModul);
+        addButton.setBackground(new Color(26, 30, 160));
+        addButton.setForeground(Color.blue);
+        addButton.setFocusPainted(false);
+        addButton.setBorder(BorderFactory.createEmptyBorder(10, 14, 10, 14));
+
+        header.add(headline, BorderLayout.WEST);
+        header.add(addButton, BorderLayout.EAST);
+
+        JPanel filters = new JPanel(new FlowLayout(FlowLayout.LEFT, 16, 0));
+        filters.setOpaque(false);
+        modulSearchField.setPreferredSize(new Dimension(250, 36));
+        modulSearchField.setToolTipText("Modul suchen");
+        modulSearchField.getDocument().addDocumentListener(new SimpleDocumentListener(this::refreshModuleCards));
+
+        modulSemesterFilter.setPreferredSize(new Dimension(210, 36));
+        modulSemesterFilter.addItem("Alle Semester");
+        for (int semester = 1; semester <= 12; semester++) {
+            modulSemesterFilter.addItem("Semester " + semester);
+        }
+        modulSemesterFilter.addActionListener(event -> refreshModuleCards());
+
+        filters.add(modulSearchField);
+        filters.add(modulSemesterFilter);
+
+        JPanel top = new JPanel(new BorderLayout(0, 18));
+        top.setOpaque(false);
+        top.add(header, BorderLayout.NORTH);
+        top.add(filters, BorderLayout.SOUTH);
+
+        modulListPanel.setLayout(new BoxLayout(modulListPanel, BoxLayout.Y_AXIS));
+        modulListPanel.setBackground(Color.WHITE);
+
+        JScrollPane scrollPane = new JScrollPane(modulListPanel);
+        scrollPane.setBorder(BorderFactory.createEmptyBorder());
+        scrollPane.getViewport().setBackground(Color.WHITE);
+
+        panel.add(top, BorderLayout.NORTH);
+        panel.add(scrollPane, BorderLayout.CENTER);
         return panel;
     }
 
@@ -211,32 +399,27 @@ public class StudyPlannerFrame extends JFrame {
      */
     private JPanel createKalenderPanel() {
         JPanel panel = basePanel();
-        kalenderTable.setModel(new DefaultTableModel(new Object[]{"Typ", "Titel", "Modul", "Datum", "Zeit", "Dauer"}, 0) {
+        kalenderTable.setModel(new DefaultTableModel(new Object[]{"Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag", "Sonntag"}, 0) {
             @Override
             public boolean isCellEditable(int row, int column) {
                 return false;
             }
         });
+        kalenderTable.setRowHeight(78);
+        kalenderTable.setCellSelectionEnabled(false);
+        kalenderTable.setFillsViewportHeight(true);
+        kalenderTable.getTableHeader().setReorderingAllowed(false);
 
         JSpinner.DateEditor dateEditor = new JSpinner.DateEditor(kalenderDatum, "yyyy-MM-dd");
         kalenderDatum.setEditor(dateEditor);
-        kalenderModus.addActionListener(event -> refreshKalender());
+        kalenderDatum.addChangeListener(event -> refreshKalender());
         kalenderModulFilter.addActionListener(event -> refreshKalender());
-        kalenderStartFilter.setToolTipText("HH:mm");
-        kalenderEndeFilter.setToolTipText("HH:mm");
 
         JPanel filters = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        filters.add(new JLabel("Datum"));
+        filters.add(new JLabel("Woche"));
         filters.add(kalenderDatum);
-        filters.add(new JLabel("Ansicht"));
-        filters.add(kalenderModus);
         filters.add(new JLabel("Modul"));
         filters.add(kalenderModulFilter);
-        filters.add(new JLabel("Von"));
-        filters.add(kalenderStartFilter);
-        filters.add(new JLabel("Bis"));
-        filters.add(kalenderEndeFilter);
-        filters.add(button("Aktualisieren", this::refreshKalender));
 
         panel.add(filters, BorderLayout.NORTH);
         panel.add(new JScrollPane(kalenderTable), BorderLayout.CENTER);
@@ -274,13 +457,34 @@ public class StudyPlannerFrame extends JFrame {
     }
 
     /**
+     * Erstellt eine einfache Uebersicht der gespeicherten Erinnerungen.
+     *
+     * @return Panel mit Erinnerungstabelle.
+     */
+    private JPanel createErinnerungPanel() {
+        JPanel panel = basePanel();
+        JTable erinnerungTable = new JTable(new DefaultTableModel(new Object[]{"Typ", "Vorlauf", "Aktiv"}, 0) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        });
+        DefaultTableModel model = (DefaultTableModel) erinnerungTable.getModel();
+        for (Erinnerung erinnerung : service.getErinnerungen()) {
+            model.addRow(new Object[]{erinnerung.getZielTyp(), erinnerung.getVorlaufMinuten() + " Min.", erinnerung.isAktiv() ? "Ja" : "Nein"});
+        }
+        panel.add(new JScrollPane(erinnerungTable), BorderLayout.CENTER);
+        return panel;
+    }
+
+    /**
      * Oeffnet den Dialog zum Anlegen eines neuen Moduls.
      */
     private void addModul() {
         ModulDialog dialog = new ModulDialog(null);
         if (dialog.show()) {
             try {
-                service.addModul(dialog.name.getText(), dialog.farbe.getText(), dialog.notizen.getText());
+                service.addModul(dialog.name.getText(), dialog.farbe.getText(), dialog.notizen.getText(), (Integer) dialog.semester.getValue());
                 refreshAll();
             } catch (IllegalArgumentException | IllegalStateException ex) {
                 showError(ex.getMessage());
@@ -289,10 +493,11 @@ public class StudyPlannerFrame extends JFrame {
     }
 
     /**
-     * Oeffnet den Dialog zum Bearbeiten des ausgewaehlten Moduls.
+     * Oeffnet den Dialog zum Bearbeiten eines Moduls anhand seiner ID.
+     *
+     * @param id ID des Moduls.
      */
-    private void editModul() {
-        UUID id = selectedId(modulTable);
+    private void editModul(UUID id) {
         if (id == null) {
             return;
         }
@@ -304,7 +509,7 @@ public class StudyPlannerFrame extends JFrame {
         ModulDialog dialog = new ModulDialog(modul.get());
         if (dialog.show()) {
             try {
-                service.updateModul(id, dialog.name.getText(), dialog.farbe.getText(), dialog.notizen.getText());
+                service.updateModul(id, dialog.name.getText(), dialog.farbe.getText(), dialog.notizen.getText(), (Integer) dialog.semester.getValue());
                 refreshAll();
             } catch (IllegalArgumentException | IllegalStateException ex) {
                 showError(ex.getMessage());
@@ -313,10 +518,11 @@ public class StudyPlannerFrame extends JFrame {
     }
 
     /**
-     * Loescht das ausgewaehlte Modul nach Bestaetigung.
+     * Loescht ein Modul anhand seiner ID.
+     *
+     * @param id ID des Moduls.
      */
-    private void deleteModul() {
-        UUID id = selectedId(modulTable);
+    private void deleteModul(UUID id) {
         if (id == null || !confirmDelete()) {
             return;
         }
@@ -448,7 +654,7 @@ public class StudyPlannerFrame extends JFrame {
      * Aktualisiert alle Tabellen und Filterlisten.
      */
     private void refreshAll() {
-        refreshModule();
+        refreshModuleCards();
         refreshTermin();
         refreshLernblock();
         refreshModuleFilter();
@@ -456,14 +662,79 @@ public class StudyPlannerFrame extends JFrame {
     }
 
     /**
-     * Aktualisiert die Modultabelle.
+     * Aktualisiert die Kartenliste der Modulansicht.
      */
-    private void refreshModule() {
-        DefaultTableModel model = (DefaultTableModel) modulTable.getModel();
-        model.setRowCount(0);
-        for (Modul modul : service.getModule()) {
-            model.addRow(new Object[]{modul.getId(), modul.getName(), modul.getFarbe(), modul.getNotizen()});
+    private void refreshModuleCards() {
+        modulListPanel.removeAll();
+
+        String search = modulSearchField.getText() == null ? "" : modulSearchField.getText().trim().toLowerCase();
+        int semesterFilter = modulSemesterFilter.getSelectedIndex();
+
+        List<Modul> filtered = service.getModule().stream()
+                .filter(modul -> search.isBlank()
+                        || modul.getName().toLowerCase().contains(search)
+                        || modul.getNotizen().toLowerCase().contains(search))
+                .filter(modul -> semesterFilter <= 0 || modul.getSemester() == semesterFilter)
+                .toList();
+
+        if (filtered.isEmpty()) {
+            JLabel empty = new JLabel("Keine Module gefunden.");
+            empty.setBorder(BorderFactory.createEmptyBorder(24, 14, 24, 14));
+            empty.setForeground(new Color(80, 80, 80));
+            modulListPanel.add(empty);
+        } else {
+            for (Modul modul : filtered) {
+                modulListPanel.add(createModuleCard(modul));
+                modulListPanel.add(Box.createVerticalStrut(22));
+            }
         }
+
+        modulListPanel.revalidate();
+        modulListPanel.repaint();
+    }
+
+    /**
+     * Erstellt eine Karte fuer ein Modul.
+     *
+     * @param modul Darzustellendes Modul.
+     * @return Kartenpanel.
+     */
+    private JPanel createModuleCard(Modul modul) {
+        JPanel card = new JPanel(new BorderLayout());
+        card.setBackground(Color.WHITE);
+        card.setMaximumSize(new Dimension(Integer.MAX_VALUE, 104));
+        card.setBorder(BorderFactory.createCompoundBorder(
+                BorderFactory.createLineBorder(new Color(25, 25, 25)),
+                BorderFactory.createEmptyBorder(16, 20, 16, 18)
+        ));
+
+        JPanel text = new JPanel();
+        text.setLayout(new BoxLayout(text, BoxLayout.Y_AXIS));
+        text.setOpaque(false);
+
+        JLabel name = new JLabel(modul.getName());
+        name.setFont(name.getFont().deriveFont(Font.PLAIN, 14f));
+
+        JLabel semester = new JLabel("Semester: " + modul.getSemester());
+        semester.setFont(semester.getFont().deriveFont(13f));
+
+        JLabel notes = new JLabel(modul.getNotizen().isBlank() ? "Keine Beschreibung vorhanden." : modul.getNotizen());
+        notes.setFont(notes.getFont().deriveFont(13f));
+
+        text.add(name);
+        text.add(semester);
+        text.add(notes);
+
+        JPanel actions = new JPanel();
+        actions.setOpaque(false);
+        actions.setLayout(new BoxLayout(actions, BoxLayout.Y_AXIS));
+        actions.add(createLinkButton("Bearbeiten", () -> editModul(modul.getId()), new Color(30, 30, 30)));
+        actions.add(Box.createVerticalStrut(8));
+        actions.add(createLinkButton("Loeschen", () -> deleteModul(modul.getId()), new Color(140, 20, 20)));
+
+        card.add(text, BorderLayout.CENTER);
+        card.add(actions, BorderLayout.EAST);
+        return card;
     }
 
     /**
@@ -524,31 +795,70 @@ public class StudyPlannerFrame extends JFrame {
     private void refreshKalender() {
         try {
             LocalDate selectedDate = ((Date) kalenderDatum.getValue()).toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-            LocalDate von = selectedDate;
-            LocalDate bis = selectedDate;
-            if ("Woche".equals(kalenderModus.getSelectedItem())) {
-                von = selectedDate.with(DayOfWeek.MONDAY);
-                bis = selectedDate.with(DayOfWeek.SUNDAY);
-            }
+            LocalDate weekStart = selectedDate.with(DayOfWeek.MONDAY);
+            LocalDate weekEnd = selectedDate.with(DayOfWeek.SUNDAY);
 
             UUID modulId = null;
             if (kalenderModulFilter.getSelectedItem() instanceof Modul modul) {
                 modulId = modul.getId();
             }
 
-            LocalTime start = parseOptionalTime(kalenderStartFilter.getText());
-            LocalTime ende = parseOptionalTime(kalenderEndeFilter.getText());
-
             DefaultTableModel model = (DefaultTableModel) kalenderTable.getModel();
+            model.setColumnIdentifiers(createWeekHeaders());
             model.setRowCount(0);
-            for (KalenderEintrag eintrag : service.getKalenderEintraege(von, bis, modulId, start, ende)) {
-                String dauer = eintrag.dauerMinuten() > 0 ? eintrag.dauerMinuten() + " Min." : "";
-                model.addRow(new Object[]{eintrag.typ(), eintrag.titel(), service.getModulName(eintrag.modulId()),
-                        eintrag.datum(), eintrag.zeit().format(TIME_FORMAT), dauer});
+
+            List<List<String>> entriesByDay = new ArrayList<>();
+            for (int day = 0; day < 7; day++) {
+                entriesByDay.add(new ArrayList<>());
+            }
+
+            for (KalenderEintrag eintrag : service.getKalenderEintraege(weekStart, weekEnd, modulId, null, null)) {
+                int dayIndex = eintrag.datum().getDayOfWeek().getValue() - 1;
+                entriesByDay.get(dayIndex).add(formatCalendarEntry(eintrag));
+            }
+
+            int rowCount = entriesByDay.stream().mapToInt(List::size).max().orElse(1);
+            for (int row = 0; row < rowCount; row++) {
+                Object[] cells = new Object[7];
+                for (int day = 0; day < 7; day++) {
+                    List<String> dayEntries = entriesByDay.get(day);
+                    cells[day] = row < dayEntries.size() ? dayEntries.get(row) : "";
+                }
+                model.addRow(cells);
             }
         } catch (IllegalArgumentException ex) {
             showError(ex.getMessage());
         }
+    }
+
+    /**
+     * Erstellt die Spaltenueberschriften fuer eine Kalenderwoche.
+     *
+     * @return Spaltenueberschriften von Montag bis Sonntag.
+     */
+    private Object[] createWeekHeaders() {
+        return new Object[]{
+                "Montag",
+                "Dienstag",
+                "Mittwoch",
+                "Donnerstag",
+                "Freitag",
+                "Samstag",
+                "Sonntag"
+        };
+    }
+
+    /**
+     * Formatiert einen Kalender-Eintrag fuer die Wochen-Tabelle.
+     *
+     * @param eintrag Kalender-Eintrag.
+     * @return Mehrzeiliger Text fuer eine Tabellenzelle.
+     */
+    private String formatCalendarEntry(KalenderEintrag eintrag) {
+        String dauer = eintrag.dauerMinuten() > 0 ? " (" + eintrag.dauerMinuten() + " Min.)" : "";
+        return "<html><b>" + eintrag.zeit().format(TIME_FORMAT) + "</b> " + eintrag.typ()
+                + "<br>" + eintrag.titel()
+                + "<br><span style='color:#4d4d4d'>" + service.getModulName(eintrag.modulId()) + dauer + "</span></html>";
     }
 
     /**
@@ -610,6 +920,26 @@ public class StudyPlannerFrame extends JFrame {
      */
     private JButton button(String text, Runnable action) {
         JButton button = new JButton(text);
+        button.addActionListener(event -> action.run());
+        return button;
+    }
+
+    /**
+     * Erstellt einen Button, der optisch wie ein Textlink wirkt.
+     *
+     * @param text Sichtbarer Text.
+     * @param action Klickaktion.
+     * @param color Textfarbe.
+     * @return Linkartiger Button.
+     */
+    private JButton createLinkButton(String text, Runnable action, Color color) {
+        JButton button = new JButton("<html><u>" + text + "</u></html>");
+        button.setBorder(BorderFactory.createEmptyBorder());
+        button.setContentAreaFilled(false);
+        button.setFocusPainted(false);
+        button.setForeground(color);
+        button.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        button.setAlignmentX(Component.RIGHT_ALIGNMENT);
         button.addActionListener(event -> action.run());
         return button;
     }
@@ -680,19 +1010,6 @@ public class StudyPlannerFrame extends JFrame {
     }
 
     /**
-     * Wandelt einen optionalen Uhrzeittext um.
-     *
-     * @param value Uhrzeit im Format HH:mm oder leer.
-     * @return Geparste Uhrzeit oder {@code null}.
-     */
-    private LocalTime parseOptionalTime(String value) {
-        if (value == null || value.isBlank()) {
-            return null;
-        }
-        return parseTime(value);
-    }
-
-    /**
      * Zeigt eine Fehlermeldung an.
      *
      * @param message Text der Fehlermeldung.
@@ -749,6 +1066,7 @@ public class StudyPlannerFrame extends JFrame {
     private class ModulDialog {
         private final JTextField name = new JTextField(24);
         private final JTextField farbe = new JTextField(10);
+        private final JSpinner semester = new JSpinner(new SpinnerNumberModel(1, 1, 12, 1));
         private final JTextArea notizen = new JTextArea(4, 24);
         private final JPanel panel = new JPanel(new GridBagLayout());
 
@@ -763,11 +1081,13 @@ public class StudyPlannerFrame extends JFrame {
             } else {
                 name.setText(modul.getName());
                 farbe.setText(modul.getFarbe());
+                semester.setValue(modul.getSemester());
                 notizen.setText(modul.getNotizen());
             }
             addFormRow(panel, 0, "Name", name);
-            addFormRow(panel, 1, "Farbe", farbe);
-            addFormRow(panel, 2, "Notizen", new JScrollPane(notizen));
+            addFormRow(panel, 1, "Semester", semester);
+            addFormRow(panel, 2, "Farbe", farbe);
+            addFormRow(panel, 3, "Beschreibung", new JScrollPane(notizen));
         }
 
         /**
@@ -904,6 +1224,37 @@ public class StudyPlannerFrame extends JFrame {
         boolean show() {
             return JOptionPane.showConfirmDialog(StudyPlannerFrame.this, panel, "Lernblock",
                     JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE) == JOptionPane.OK_OPTION;
+        }
+    }
+
+    /**
+     * Kleiner DocumentListener, der alle Dokumentaenderungen an dieselbe Aktion weitergibt.
+     */
+    private static class SimpleDocumentListener implements DocumentListener {
+        private final Runnable action;
+
+        /**
+         * Erstellt den Listener.
+         *
+         * @param action Aktion bei Textaenderung.
+         */
+        SimpleDocumentListener(Runnable action) {
+            this.action = action;
+        }
+
+        @Override
+        public void insertUpdate(DocumentEvent event) {
+            action.run();
+        }
+
+        @Override
+        public void removeUpdate(DocumentEvent event) {
+            action.run();
+        }
+
+        @Override
+        public void changedUpdate(DocumentEvent event) {
+            action.run();
         }
     }
 

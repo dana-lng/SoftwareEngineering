@@ -84,34 +84,37 @@ public class StudyService {
     }
 
     /**
-     * Fuegt ein neues Modul hinzu.
+     * Fuegt ein neues Modul mit Semester hinzu.
      *
      * @param name Name des Moduls.
      * @param farbe Farbe des Moduls.
      * @param notizen Optionale Notizen.
+     * @param semester Semester des Moduls.
      * @return Neu angelegtes Modul.
      */
-    public Modul addModul(String name, String farbe, String notizen) {
+    public Modul addModul(String name, String farbe, String notizen, int semester) {
         ensureUniqueModuleName(null, name);
-        Modul modul = new Modul(name, farbe, notizen);
+        Modul modul = new Modul(name, farbe, notizen, semester);
         studyPlan.getModule().add(modul);
         save();
         return modul;
     }
 
     /**
-     * Aktualisiert ein vorhandenes Modul.
+     * Aktualisiert ein vorhandenes Modul inklusive Semester.
      *
      * @param id ID des Moduls.
      * @param name Neuer Name.
      * @param farbe Neue Farbe.
      * @param notizen Neue Notizen.
+     * @param semester Neues Semester.
      */
-    public void updateModul(UUID id, String name, String farbe, String notizen) {
+    public void updateModul(UUID id, String name, String farbe, String notizen, int semester) {
         Modul modul = findModul(id).orElseThrow(() -> new IllegalArgumentException("Modul wurde nicht gefunden."));
         ensureUniqueModuleName(id, name);
         modul.setName(name);
         modul.setFarbe(farbe);
+        modul.setSemester(semester);
         modul.setNotizen(notizen);
         save();
     }

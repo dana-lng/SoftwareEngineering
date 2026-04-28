@@ -26,21 +26,28 @@ public class Modul implements Serializable {
     private String farbe;
 
     /**
+     * Semester, in dem das Modul belegt wird.
+     */
+    private int semester;
+
+    /**
      * Optionale Notizen zum Modul.
      */
     private String notizen;
 
     /**
-     * Erstellt ein neues Modul.
+     * Erstellt ein neues Modul mit Semester.
      *
      * @param name Name des Moduls.
      * @param farbe Optionale Farbe zur visuellen Unterscheidung.
      * @param notizen Optionale Notizen zum Modul.
+     * @param semester Semester zwischen 1 und 12.
      */
-    public Modul(String name, String farbe, String notizen) {
+    public Modul(String name, String farbe, String notizen, int semester) {
         this.id = UUID.randomUUID();
         this.name = validateName(name);
         this.farbe = normalizeFarbe(farbe);
+        this.semester = validateSemester(semester);
         this.notizen = normalizeText(notizen);
     }
 
@@ -88,6 +95,25 @@ public class Modul implements Serializable {
      */
     public void setFarbe(String farbe) {
         this.farbe = normalizeFarbe(farbe);
+    }
+
+    /**
+     * Gibt das Semester des Moduls zurueck.
+     *
+     * @return Semesterzahl.
+     */
+    public int getSemester() {
+        return semester <= 0 ? 1 : semester;
+    }
+
+    /**
+     * Setzt das Semester des Moduls.
+     *
+     * @param semester Semester zwischen 1 und 12.
+     * @throws IllegalArgumentException wenn das Semester ausserhalb des erlaubten Bereichs liegt.
+     */
+    public void setSemester(int semester) {
+        this.semester = validateSemester(semester);
     }
 
     /**
@@ -158,5 +184,12 @@ public class Modul implements Serializable {
 
     private static String normalizeText(String text) {
         return text == null ? "" : text.trim();
+    }
+
+    private static int validateSemester(int semester) {
+        if (semester < 1 || semester > 12) {
+            throw new IllegalArgumentException("Das Semester muss zwischen 1 und 12 liegen.");
+        }
+        return semester;
     }
 }
