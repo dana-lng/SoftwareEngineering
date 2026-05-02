@@ -116,7 +116,7 @@
     <ownedEnd xmi:type="uml:Property" xmi:id="_bCjCsj8gEfG6Pb5GD03cUw" name="module verwalten" type="_v5NacD8eEfG6Pb5GD03cUw" association="_bCiboD8gEfG6Pb5GD03cUw"/>
     <ownedEnd xmi:type="uml:Property" xmi:id="_bCjCsz8gEfG6Pb5GD03cUw" name="studierende" type="_YfFc4D8fEfG6Pb5GD03cUw" association="_bCiboD8gEfG6Pb5GD03cUw"/>
   </packagedElement>
-  <packagedElement xmi:type="uml:Class" xmi:id="_qhdfYD8uEfG6Pb5GD03cUw" name="Einstellungen" visibility="public">
+  <packagedElement xmi:type="uml:Class" xmi:id="_qhdfYD8uEfG6Pb5GD03cUw" name="Einstellung" visibility="public">
     <ownedAttribute xmi:type="uml:Property" xmi:id="_vdLygD8uEfG6Pb5GD03cUw" name="standardansicht" visibility="private" type="_R8aGID83EfG6Pb5GD03cUw" isUnique="false"/>
     <ownedAttribute xmi:type="uml:Property" xmi:id="_zTXZ4D8uEfG6Pb5GD03cUw" name="standardErinnerung" visibility="private" type="_ZC9SED83EfG6Pb5GD03cUw" isUnique="false"/>
     <ownedAttribute xmi:type="uml:Property" xmi:id="_2lOMMD8uEfG6Pb5GD03cUw" name="speicherort" visibility="private" type="_fP_cED83EfG6Pb5GD03cUw" isUnique="false"/>
@@ -234,7 +234,7 @@
     <nestedClassifier xmi:type="uml:DataType" xmi:id="_MR6TYD81EfG6Pb5GD03cUw" name="int"/>
     <nestedClassifier xmi:type="uml:DataType" xmi:id="_SHSyYD81EfG6Pb5GD03cUw" name="String"/>
   </packagedElement>
-  <packagedElement xmi:type="uml:Class" xmi:id="_49hcID81EfG6Pb5GD03cUw" name="Erinnerungen" visibility="public">
+  <packagedElement xmi:type="uml:Class" xmi:id="_49hcID81EfG6Pb5GD03cUw" name="Erinnerung" visibility="public">
     <ownedAttribute xmi:type="uml:Property" xmi:id="_EYS2UD82EfG6Pb5GD03cUw" name="erinnerungId" visibility="private" type="_IgQKMD82EfG6Pb5GD03cUw"/>
     <ownedAttribute xmi:type="uml:Property" xmi:id="_LuJpkD82EfG6Pb5GD03cUw" name="vorlauf" visibility="private" type="_PqUkMD82EfG6Pb5GD03cUw" isUnique="false"/>
     <ownedAttribute xmi:type="uml:Property" xmi:id="_R71T0D82EfG6Pb5GD03cUw" name="aktiv" visibility="private" type="_VgmbED82EfG6Pb5GD03cUw" isUnique="false"/>
