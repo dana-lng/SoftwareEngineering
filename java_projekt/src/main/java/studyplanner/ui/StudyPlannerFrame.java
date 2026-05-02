@@ -306,7 +306,7 @@ public class StudyPlannerFrame extends JFrame {
 
         JButton addButton = button("+ Neues Modul", this::addModul);
         addButton.setBackground(new Color(26, 30, 160));
-        addButton.setForeground(Color.blue);
+        addButton.setForeground(Color.WHITE);
         addButton.setFocusPainted(false);
         addButton.setBorder(BorderFactory.createEmptyBorder(10, 14, 10, 14));
 
@@ -353,7 +353,8 @@ public class StudyPlannerFrame extends JFrame {
      */
     private JPanel createTerminPanel() {
         JPanel panel = basePanel();
-        terminTable.setModel(new DefaultTableModel(new Object[]{"ID", "Titel", "Modul", "Datum", "Uhrzeit", "Erinnerung"}, 0) {
+        terminTable.setModel(new DefaultTableModel(
+                new Object[]{"ID", "Titel", "Modul", "Datum", "Uhrzeit", "Dauer", "Art", "Erinnerung"}, 0) {
             @Override
             public boolean isCellEditable(int row, int column) {
                 return false;
@@ -376,7 +377,8 @@ public class StudyPlannerFrame extends JFrame {
      */
     private JPanel createLernblockPanel() {
         JPanel panel = basePanel();
-        lernblockTable.setModel(new DefaultTableModel(new Object[]{"ID", "Thema", "Modul", "Datum", "Start", "Dauer", "Erinnerung"}, 0) {
+        lernblockTable.setModel(new DefaultTableModel(
+                new Object[]{"ID", "Thema", "Modul", "Datum", "Start", "Dauer", "Erinnerung"}, 0) {
             @Override
             public boolean isCellEditable(int row, int column) {
                 return false;
@@ -399,7 +401,8 @@ public class StudyPlannerFrame extends JFrame {
      */
     private JPanel createKalenderPanel() {
         JPanel panel = basePanel();
-        kalenderTable.setModel(new DefaultTableModel(new Object[]{"Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag", "Sonntag"}, 0) {
+        kalenderTable.setModel(new DefaultTableModel(
+                new Object[]{"Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag", "Sonntag"}, 0) {
             @Override
             public boolean isCellEditable(int row, int column) {
                 return false;
@@ -471,7 +474,11 @@ public class StudyPlannerFrame extends JFrame {
         });
         DefaultTableModel model = (DefaultTableModel) erinnerungTable.getModel();
         for (Erinnerung erinnerung : service.getErinnerungen()) {
-            model.addRow(new Object[]{erinnerung.getZielTyp(), erinnerung.getVorlaufMinuten() + " Min.", erinnerung.isAktiv() ? "Ja" : "Nein"});
+            model.addRow(new Object[]{
+                    erinnerung.getZielTyp(),
+                    erinnerung.getVorlaufMinuten() + " Min.",
+                    erinnerung.isAktiv() ? "Ja" : "Nein"
+            });
         }
         panel.add(new JScrollPane(erinnerungTable), BorderLayout.CENTER);
         return panel;
@@ -484,7 +491,8 @@ public class StudyPlannerFrame extends JFrame {
         ModulDialog dialog = new ModulDialog(null);
         if (dialog.show()) {
             try {
-                service.addModul(dialog.name.getText(), dialog.farbe.getText(), dialog.notizen.getText(), (Integer) dialog.semester.getValue());
+                service.addModul(dialog.name.getText(), dialog.farbe.getText(), dialog.notizen.getText(),
+                        (Integer) dialog.semester.getValue());
                 refreshAll();
             } catch (IllegalArgumentException | IllegalStateException ex) {
                 showError(ex.getMessage());
@@ -509,7 +517,8 @@ public class StudyPlannerFrame extends JFrame {
         ModulDialog dialog = new ModulDialog(modul.get());
         if (dialog.show()) {
             try {
-                service.updateModul(id, dialog.name.getText(), dialog.farbe.getText(), dialog.notizen.getText(), (Integer) dialog.semester.getValue());
+                service.updateModul(id, dialog.name.getText(), dialog.farbe.getText(), dialog.notizen.getText(),
+                        (Integer) dialog.semester.getValue());
                 refreshAll();
             } catch (IllegalArgumentException | IllegalStateException ex) {
                 showError(ex.getMessage());
@@ -545,8 +554,16 @@ public class StudyPlannerFrame extends JFrame {
         TerminDialog dialog = new TerminDialog(null);
         if (dialog.show()) {
             try {
-                service.addTermin(dialog.selectedModulId(), dialog.titel.getText(), parseDate(dialog.datum.getText()),
-                        parseTime(dialog.uhrzeit.getText()), dialog.notizen.getText(), (Integer) dialog.vorlauf.getValue());
+                service.addTermin(
+                        dialog.selectedModulId(),
+                        dialog.titel.getText(),
+                        parseDate(dialog.datum.getText()),
+                        parseTime(dialog.uhrzeit.getText()),
+                        (Integer) dialog.dauer.getValue(),
+                        dialog.terminart.getText(),
+                        dialog.notizen.getText(),
+                        (Integer) dialog.vorlauf.getValue()
+                );
                 refreshAll();
             } catch (IllegalArgumentException | IllegalStateException ex) {
                 showError(ex.getMessage());
@@ -570,9 +587,18 @@ public class StudyPlannerFrame extends JFrame {
         TerminDialog dialog = new TerminDialog(termin.get());
         if (dialog.show()) {
             try {
-                service.updateTermin(id, dialog.selectedModulId(), dialog.titel.getText(), parseDate(dialog.datum.getText()),
-                        parseTime(dialog.uhrzeit.getText()), dialog.notizen.getText(), (Integer) dialog.vorlauf.getValue(),
-                        dialog.erinnerungAktiv.isSelected());
+                service.updateTermin(
+                        id,
+                        dialog.selectedModulId(),
+                        dialog.titel.getText(),
+                        parseDate(dialog.datum.getText()),
+                        parseTime(dialog.uhrzeit.getText()),
+                        (Integer) dialog.dauer.getValue(),
+                        dialog.terminart.getText(),
+                        dialog.notizen.getText(),
+                        (Integer) dialog.vorlauf.getValue(),
+                        dialog.erinnerungAktiv.isSelected()
+                );
                 refreshAll();
             } catch (IllegalArgumentException | IllegalStateException ex) {
                 showError(ex.getMessage());
@@ -603,8 +629,14 @@ public class StudyPlannerFrame extends JFrame {
         LernblockDialog dialog = new LernblockDialog(null);
         if (dialog.show()) {
             try {
-                service.addLernblock(dialog.selectedModulId(), dialog.thema.getText(), parseDate(dialog.datum.getText()),
-                        parseTime(dialog.startzeit.getText()), (Integer) dialog.dauer.getValue(), (Integer) dialog.vorlauf.getValue());
+                service.addLernblock(
+                        dialog.selectedModulId(),
+                        dialog.thema.getText(),
+                        parseDate(dialog.datum.getText()),
+                        parseTime(dialog.startzeit.getText()),
+                        (Integer) dialog.dauer.getValue(),
+                        (Integer) dialog.vorlauf.getValue()
+                );
                 refreshAll();
             } catch (IllegalArgumentException | IllegalStateException ex) {
                 showError(ex.getMessage());
@@ -628,9 +660,16 @@ public class StudyPlannerFrame extends JFrame {
         LernblockDialog dialog = new LernblockDialog(lernblock.get());
         if (dialog.show()) {
             try {
-                service.updateLernblock(id, dialog.selectedModulId(), dialog.thema.getText(), parseDate(dialog.datum.getText()),
-                        parseTime(dialog.startzeit.getText()), (Integer) dialog.dauer.getValue(), (Integer) dialog.vorlauf.getValue(),
-                        dialog.erinnerungAktiv.isSelected());
+                service.updateLernblock(
+                        id,
+                        dialog.selectedModulId(),
+                        dialog.thema.getText(),
+                        parseDate(dialog.datum.getText()),
+                        parseTime(dialog.startzeit.getText()),
+                        (Integer) dialog.dauer.getValue(),
+                        (Integer) dialog.vorlauf.getValue(),
+                        dialog.erinnerungAktiv.isSelected()
+                );
                 refreshAll();
             } catch (IllegalArgumentException | IllegalStateException ex) {
                 showError(ex.getMessage());
@@ -747,8 +786,16 @@ public class StudyPlannerFrame extends JFrame {
             String erinnerung = service.findErinnerung(Erinnerung.ZielTyp.TERMIN, termin.getId())
                     .map(e -> e.isAktiv() ? e.getVorlaufMinuten() + " Min." : "Aus")
                     .orElse("Aus");
-            model.addRow(new Object[]{termin.getId(), termin.getTitel(), service.getModulName(termin.getModulId()),
-                    termin.getDatum(), termin.getUhrzeit().format(TIME_FORMAT), erinnerung});
+            model.addRow(new Object[]{
+                    termin.getId(),
+                    termin.getTitel(),
+                    service.getModulName(termin.getModulId()),
+                    termin.getDatum(),
+                    termin.getUhrzeit().format(TIME_FORMAT),
+                    termin.getDauerMinuten() + " Min.",
+                    termin.getTerminart(),
+                    erinnerung
+            });
         }
     }
 
@@ -762,8 +809,15 @@ public class StudyPlannerFrame extends JFrame {
             String erinnerung = service.findErinnerung(Erinnerung.ZielTyp.LERNBLOCK, block.getId())
                     .map(e -> e.isAktiv() ? e.getVorlaufMinuten() + " Min." : "Aus")
                     .orElse("Aus");
-            model.addRow(new Object[]{block.getId(), block.getThema(), service.getModulName(block.getModulId()),
-                    block.getDatum(), block.getStartzeit().format(TIME_FORMAT), block.getDauerMinuten() + " Min.", erinnerung});
+            model.addRow(new Object[]{
+                    block.getId(),
+                    block.getThema(),
+                    service.getModulName(block.getModulId()),
+                    block.getDatum(),
+                    block.getStartzeit().format(TIME_FORMAT),
+                    block.getDauerMinuten() + " Min.",
+                    erinnerung
+            });
         }
     }
 
@@ -794,7 +848,8 @@ public class StudyPlannerFrame extends JFrame {
      */
     private void refreshKalender() {
         try {
-            LocalDate selectedDate = ((Date) kalenderDatum.getValue()).toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+            LocalDate selectedDate = ((Date) kalenderDatum.getValue()).toInstant()
+                    .atZone(ZoneId.systemDefault()).toLocalDate();
             LocalDate weekStart = selectedDate.with(DayOfWeek.MONDAY);
             LocalDate weekEnd = selectedDate.with(DayOfWeek.SUNDAY);
 
@@ -1035,14 +1090,27 @@ public class StudyPlannerFrame extends JFrame {
      * @param label Beschriftung.
      * @param component Eingabekomponente.
      */
-    private void addFormRow(JPanel panel, int row, String label, java.awt.Component component) {
+    private void addFormRow(JPanel panel, int row, Component label, Component component) {
         GridBagConstraints left = constraints(row, 0);
         left.anchor = GridBagConstraints.WEST;
-        panel.add(new JLabel(label), left);
+        panel.add(label, left);
+
         GridBagConstraints right = constraints(row, 1);
         right.weightx = 1;
         right.fill = GridBagConstraints.HORIZONTAL;
         panel.add(component, right);
+    }
+
+    /**
+     * Fuegt eine beschriftete Formularzeile in ein GridBagLayout ein.
+     *
+     * @param panel Ziel-Panel.
+     * @param row Zeilennummer.
+     * @param label Beschriftung.
+     * @param component Eingabekomponente.
+     */
+    private void addFormRow(JPanel panel, int row, String label, Component component) {
+        addFormRow(panel, row, new JLabel(label), component);
     }
 
     /**
@@ -1109,8 +1177,11 @@ public class StudyPlannerFrame extends JFrame {
         private final JTextField titel = new JTextField(24);
         private final JTextField datum = new JTextField(10);
         private final JTextField uhrzeit = new JTextField(5);
+        private final JSpinner dauer = new JSpinner(new SpinnerNumberModel(60, 1, 1440, 15));
+        private final JTextField terminart = new JTextField(24);
         private final JTextArea notizen = new JTextArea(4, 24);
-        private final JSpinner vorlauf = new JSpinner(new SpinnerNumberModel(service.getEinstellung().getStandardVorlaufMinuten(), 0, 10080, 5));
+        private final JSpinner vorlauf = new JSpinner(
+                new SpinnerNumberModel(service.getEinstellung().getStandardVorlaufMinuten(), 0, 10080, 5));
         private final JCheckBox erinnerungAktiv = new JCheckBox("Aktiv", true);
         private final JPanel panel = new JPanel(new GridBagLayout());
 
@@ -1123,24 +1194,37 @@ public class StudyPlannerFrame extends JFrame {
             service.getModule().forEach(modul::addItem);
             datum.setText(LocalDate.now().format(DATE_FORMAT));
             uhrzeit.setText("09:00");
+            terminart.setText("Vorlesung");
+
             if (termin != null) {
                 selectModul(termin.getModulId(), modul);
                 titel.setText(termin.getTitel());
                 datum.setText(termin.getDatum().format(DATE_FORMAT));
                 uhrzeit.setText(termin.getUhrzeit().format(TIME_FORMAT));
+                dauer.setValue(termin.getDauerMinuten());
+                terminart.setText(termin.getTerminart());
                 notizen.setText(termin.getNotizen());
                 service.findErinnerung(Erinnerung.ZielTyp.TERMIN, termin.getId()).ifPresent(erinnerung -> {
                     vorlauf.setValue(erinnerung.getVorlaufMinuten());
                     erinnerungAktiv.setSelected(erinnerung.isAktiv());
                 });
             }
+
             addFormRow(panel, 0, "Modul", modul);
             addFormRow(panel, 1, "Titel", titel);
             addFormRow(panel, 2, "Datum yyyy-MM-dd", datum);
             addFormRow(panel, 3, "Uhrzeit HH:mm", uhrzeit);
-            addFormRow(panel, 4, "Notizen", new JScrollPane(notizen));
-            addFormRow(panel, 5, "Vorlauf Minuten", vorlauf);
-            addFormRow(panel, 6, "Erinnerung", erinnerungAktiv);
+            addFormRow(panel, 4, "Dauer Minuten", dauer);
+            addFormRow(panel, 5, "Terminart", terminart);
+            addFormRow(panel, 6, "Notizen", new JScrollPane(notizen));
+
+            JPanel reminderPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 8, 0));
+            reminderPanel.setOpaque(false);
+            reminderPanel.add(erinnerungAktiv);
+            reminderPanel.add(new JLabel("Vorlauf Minuten"));
+            reminderPanel.add(vorlauf);
+
+            addFormRow(panel, 7, "Erinnerung", reminderPanel);
         }
 
         /**
@@ -1173,7 +1257,8 @@ public class StudyPlannerFrame extends JFrame {
         private final JTextField datum = new JTextField(10);
         private final JTextField startzeit = new JTextField(5);
         private final JSpinner dauer = new JSpinner(new SpinnerNumberModel(60, 1, 1440, 15));
-        private final JSpinner vorlauf = new JSpinner(new SpinnerNumberModel(service.getEinstellung().getStandardVorlaufMinuten(), 0, 10080, 5));
+        private final JSpinner vorlauf = new JSpinner(
+                new SpinnerNumberModel(service.getEinstellung().getStandardVorlaufMinuten(), 0, 10080, 5));
         private final JCheckBox erinnerungAktiv = new JCheckBox("Aktiv", true);
         private final JPanel panel = new JPanel(new GridBagLayout());
 
@@ -1202,8 +1287,14 @@ public class StudyPlannerFrame extends JFrame {
             addFormRow(panel, 2, "Datum yyyy-MM-dd", datum);
             addFormRow(panel, 3, "Start HH:mm", startzeit);
             addFormRow(panel, 4, "Dauer Minuten", dauer);
-            addFormRow(panel, 5, "Vorlauf Minuten", vorlauf);
-            addFormRow(panel, 6, "Erinnerung", erinnerungAktiv);
+
+            JPanel reminderPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 8, 0));
+            reminderPanel.setOpaque(false);
+            reminderPanel.add(erinnerungAktiv);
+            reminderPanel.add(new JLabel("Vorlauf Minuten"));
+            reminderPanel.add(vorlauf);
+
+            addFormRow(panel, 5, "Erinnerung", reminderPanel);
         }
 
         /**

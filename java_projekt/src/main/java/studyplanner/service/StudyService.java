@@ -141,13 +141,16 @@ public class StudyService {
      * @param titel Titel des Termins.
      * @param datum Datum des Termins.
      * @param uhrzeit Uhrzeit des Termins.
+     * @param dauerMinuten Dauer des Termins in Minuten.
+     * @param terminart Art des Termins.
      * @param notizen Optionale Notizen.
      * @param vorlaufMinuten Vorlauf der Erinnerung in Minuten.
      * @return Neu angelegter Termin.
      */
-    public Termin addTermin(UUID modulId, String titel, LocalDate datum, LocalTime uhrzeit, String notizen, int vorlaufMinuten) {
+    public Termin addTermin(UUID modulId, String titel, LocalDate datum, LocalTime uhrzeit,
+                            int dauerMinuten, String terminart, String notizen, int vorlaufMinuten) {
         ensureModuleExists(modulId);
-        Termin termin = new Termin(modulId, titel, datum, uhrzeit, notizen);
+        Termin termin = new Termin(modulId, titel, datum, uhrzeit, dauerMinuten, terminart, notizen);
         studyPlan.getTermine().add(termin);
         studyPlan.getErinnerungen().add(new Erinnerung(Erinnerung.ZielTyp.TERMIN, termin.getId(), vorlaufMinuten, true));
         save();
@@ -162,17 +165,23 @@ public class StudyService {
      * @param titel Neuer Titel.
      * @param datum Neues Datum.
      * @param uhrzeit Neue Uhrzeit.
+     * @param dauerMinuten Neue Dauer in Minuten.
+     * @param terminart Neue Terminart.
      * @param notizen Neue Notizen.
      * @param vorlaufMinuten Vorlauf der Erinnerung in Minuten.
      * @param erinnerungAktiv Gibt an, ob die Erinnerung aktiv ist.
      */
-    public void updateTermin(UUID id, UUID modulId, String titel, LocalDate datum, LocalTime uhrzeit, String notizen, int vorlaufMinuten, boolean erinnerungAktiv) {
+    public void updateTermin(UUID id, UUID modulId, String titel, LocalDate datum, LocalTime uhrzeit,
+                             int dauerMinuten, String terminart, String notizen,
+                             int vorlaufMinuten, boolean erinnerungAktiv) {
         ensureModuleExists(modulId);
         Termin termin = findTermin(id).orElseThrow(() -> new IllegalArgumentException("Termin wurde nicht gefunden."));
         termin.setModulId(modulId);
         termin.setTitel(titel);
         termin.setDatum(datum);
         termin.setUhrzeit(uhrzeit);
+        termin.setDauerMinuten(dauerMinuten);
+        termin.setTerminart(terminart);
         termin.setNotizen(notizen);
         upsertErinnerung(Erinnerung.ZielTyp.TERMIN, id, vorlaufMinuten, erinnerungAktiv);
         save();
@@ -185,7 +194,8 @@ public class StudyService {
      */
     public void deleteTermin(UUID id) {
         studyPlan.getTermine().removeIf(termin -> termin.getId().equals(id));
-        studyPlan.getErinnerungen().removeIf(erinnerung -> erinnerung.getZielTyp() == Erinnerung.ZielTyp.TERMIN && erinnerung.getZielId().equals(id));
+        studyPlan.getErinnerungen().removeIf(erinnerung ->
+                erinnerung.getZielTyp() == Erinnerung.ZielTyp.TERMIN && erinnerung.getZielId().equals(id));
         save();
     }
 
@@ -200,7 +210,8 @@ public class StudyService {
      * @param vorlaufMinuten Vorlauf der Erinnerung in Minuten.
      * @return Neu angelegter Lernblock.
      */
-    public Lernblock addLernblock(UUID modulId, String thema, LocalDate datum, LocalTime startzeit, int dauerMinuten, int vorlaufMinuten) {
+    public Lernblock addLernblock(UUID modulId, String thema, LocalDate datum, LocalTime startzeit,
+                                  int dauerMinuten, int vorlaufMinuten) {
         ensureModuleExists(modulId);
         Lernblock lernblock = new Lernblock(modulId, thema, datum, startzeit, dauerMinuten);
         studyPlan.getLernbloecke().add(lernblock);
@@ -221,7 +232,8 @@ public class StudyService {
      * @param vorlaufMinuten Vorlauf der Erinnerung in Minuten.
      * @param erinnerungAktiv Gibt an, ob die Erinnerung aktiv ist.
      */
-    public void updateLernblock(UUID id, UUID modulId, String thema, LocalDate datum, LocalTime startzeit, int dauerMinuten, int vorlaufMinuten, boolean erinnerungAktiv) {
+    public void updateLernblock(UUID id, UUID modulId, String thema, LocalDate datum, LocalTime startzeit,
+                                int dauerMinuten, int vorlaufMinuten, boolean erinnerungAktiv) {
         ensureModuleExists(modulId);
         Lernblock lernblock = findLernblock(id).orElseThrow(() -> new IllegalArgumentException("Lernblock wurde nicht gefunden."));
         lernblock.setModulId(modulId);
@@ -240,7 +252,8 @@ public class StudyService {
      */
     public void deleteLernblock(UUID id) {
         studyPlan.getLernbloecke().removeIf(lernblock -> lernblock.getId().equals(id));
-        studyPlan.getErinnerungen().removeIf(erinnerung -> erinnerung.getZielTyp() == Erinnerung.ZielTyp.LERNBLOCK && erinnerung.getZielId().equals(id));
+        studyPlan.getErinnerungen().removeIf(erinnerung ->
+                erinnerung.getZielTyp() == Erinnerung.ZielTyp.LERNBLOCK && erinnerung.getZielId().equals(id));
         save();
     }
 
@@ -271,14 +284,30 @@ public class StudyService {
                 .filter(termin -> isInDateRange(termin.getDatum(), von, bis))
                 .filter(termin -> modulId == null || termin.getModulId().equals(modulId))
                 .filter(termin -> isInTimeRange(termin.getUhrzeit(), start, ende))
-                .map(termin -> new KalenderEintrag("Termin", termin.getId(), termin.getModulId(), termin.getTitel(), termin.getDatum(), termin.getUhrzeit(), 0))
+                .map(termin -> new KalenderEintrag(
+                        "Termin",
+                        termin.getId(),
+                        termin.getModulId(),
+                        termin.getTitel(),
+                        termin.getDatum(),
+                        termin.getUhrzeit(),
+                        termin.getDauerMinuten()
+                ))
                 .toList();
 
         List<KalenderEintrag> lernbloecke = studyPlan.getLernbloecke().stream()
                 .filter(block -> isInDateRange(block.getDatum(), von, bis))
                 .filter(block -> modulId == null || block.getModulId().equals(modulId))
                 .filter(block -> isInTimeRange(block.getStartzeit(), start, ende))
-                .map(block -> new KalenderEintrag("Lernblock", block.getId(), block.getModulId(), block.getThema(), block.getDatum(), block.getStartzeit(), block.getDauerMinuten()))
+                .map(block -> new KalenderEintrag(
+                        "Lernblock",
+                        block.getId(),
+                        block.getModulId(),
+                        block.getThema(),
+                        block.getDatum(),
+                        block.getStartzeit(),
+                        block.getDauerMinuten()
+                ))
                 .toList();
 
         return java.util.stream.Stream.concat(termine.stream(), lernbloecke.stream())
@@ -460,7 +489,7 @@ public class StudyService {
      * @param titel Anzeige-Titel.
      * @param datum Datum des Eintrags.
      * @param zeit Uhrzeit des Eintrags.
-     * @param dauerMinuten Dauer in Minuten; bei Terminen 0.
+     * @param dauerMinuten Dauer in Minuten.
      */
     public record KalenderEintrag(String typ, UUID id, UUID modulId, String titel, LocalDate datum, LocalTime zeit, int dauerMinuten) {
     }

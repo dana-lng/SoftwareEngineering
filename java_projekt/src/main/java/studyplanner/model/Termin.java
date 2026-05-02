@@ -37,6 +37,16 @@ public class Termin implements Serializable {
     private LocalTime uhrzeit;
 
     /**
+     * Dauer des Termins in Minuten.
+     */
+    private int dauerMinuten;
+
+    /**
+     * Art des Termins, z. B. Vorlesung, Pruefung oder Abgabe.
+     */
+    private String terminart;
+
+    /**
      * Optionale Notizen zum Termin.
      */
     private String notizen;
@@ -48,14 +58,19 @@ public class Termin implements Serializable {
      * @param titel Titel des Termins.
      * @param datum Datum des Termins.
      * @param uhrzeit Uhrzeit des Termins.
+     * @param dauerMinuten Dauer des Termins in Minuten.
+     * @param terminart Art des Termins.
      * @param notizen Optionale Notizen.
      */
-    public Termin(UUID modulId, String titel, LocalDate datum, LocalTime uhrzeit, String notizen) {
+    public Termin(UUID modulId, String titel, LocalDate datum, LocalTime uhrzeit,
+                  int dauerMinuten, String terminart, String notizen) {
         this.id = UUID.randomUUID();
         this.modulId = validateModulId(modulId);
         this.titel = validateTitel(titel);
         this.datum = validateDatum(datum);
         this.uhrzeit = validateUhrzeit(uhrzeit);
+        this.dauerMinuten = validateDauerMinuten(dauerMinuten);
+        this.terminart = validateTerminart(terminart);
         this.notizen = normalizeText(notizen);
     }
 
@@ -145,6 +160,44 @@ public class Termin implements Serializable {
     }
 
     /**
+     * Gibt die Dauer des Termins in Minuten zurueck.
+     *
+     * @return Dauer in Minuten.
+     */
+    public int getDauerMinuten() {
+        return dauerMinuten;
+    }
+
+    /**
+     * Setzt die Dauer des Termins in Minuten.
+     *
+     * @param dauerMinuten Neue Dauer in Minuten.
+     * @throws IllegalArgumentException wenn die Dauer ausserhalb des erlaubten Bereichs liegt.
+     */
+    public void setDauerMinuten(int dauerMinuten) {
+        this.dauerMinuten = validateDauerMinuten(dauerMinuten);
+    }
+
+    /**
+     * Gibt die Art des Termins zurueck.
+     *
+     * @return Terminart.
+     */
+    public String getTerminart() {
+        return terminart;
+    }
+
+    /**
+     * Setzt die Art des Termins.
+     *
+     * @param terminart Neue Terminart.
+     * @throws IllegalArgumentException wenn die Terminart leer ist.
+     */
+    public void setTerminart(String terminart) {
+        this.terminart = validateTerminart(terminart);
+    }
+
+    /**
      * Gibt die Notizen zum Termin zurueck.
      *
      * @return Notiztext oder leerer Text.
@@ -188,6 +241,20 @@ public class Termin implements Serializable {
             throw new IllegalArgumentException("Ein Termin braucht eine Uhrzeit.");
         }
         return uhrzeit;
+    }
+
+    private static int validateDauerMinuten(int dauerMinuten) {
+        if (dauerMinuten <= 0 || dauerMinuten > 1440) {
+            throw new IllegalArgumentException("Die Dauer muss zwischen 1 und 1440 Minuten liegen.");
+        }
+        return dauerMinuten;
+    }
+
+    private static String validateTerminart(String terminart) {
+        if (terminart == null || terminart.isBlank()) {
+            throw new IllegalArgumentException("Die Terminart darf nicht leer sein.");
+        }
+        return terminart.trim();
     }
 
     private static String normalizeText(String text) {
