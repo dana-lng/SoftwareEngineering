@@ -1,6 +1,6 @@
-Class-Diagram ist korrigiert.
+## 1)Class-Diagram ist korrigiert.
 
-## Änderungen im Code
+## 2)Änderungen im Code
 
 Für die Erweiterung der Termin-Funktion wurden folgende Dateien angepasst:
 
