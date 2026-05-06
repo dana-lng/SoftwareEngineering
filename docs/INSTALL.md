@@ -97,13 +97,13 @@ Wichtige Ordner:
 
 ```text
 java_projekt/
-â”œâ”€â”€ pom.xml
-â”œâ”€â”€ src/
-â”‚   â”œâ”€â”€ main/
-â”‚   â”‚   â””â”€â”€ java/
-â”‚   â””â”€â”€ test/
-â”‚       â””â”€â”€ java/
-â””â”€â”€ target/
+    pom.xml
+    src/
+        main/
+            java/
+        test/
+            java/
+    target/
 ```
 
 Beschreibung:
