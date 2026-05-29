@@ -20,3 +20,8 @@ Das Projekt umfasst unter anderem:
 ## Ziel
 
 Ziel des Projekts ist es, den vollständigen Softwareentwicklungsprozess von der Anforderungsanalyse bis zum Release und zur Wartung praktisch nachzuvollziehen.
+
+## Erweiterung im aktuellen Meilenstein
+Im aktuellen Meilenstein wird die Study-Planner-Anwendung um eine zusätzliche Funktion erweitert. Termine und Lernblöcke können künftig als „erledigt“ oder wieder als „offen“ markiert werden.
+
+Die Erweiterung wird im Pflichtenheft, in den UML-Diagrammen, in der Implementierung, in den Tests und in der Dokumentation nachvollziehbar ergänzt.
