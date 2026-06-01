@@ -10,6 +10,8 @@ import java.util.UUID;
  */
 public class Lernblock implements Serializable {
     private static final long serialVersionUID = 1L;
+    public static final String STATUS_OFFEN = "offen";
+    public static final String STATUS_ERLEDIGT = "erledigt";
 
     /**
      * Eindeutige ID des Lernblocks.
@@ -42,6 +44,11 @@ public class Lernblock implements Serializable {
     private int dauerMinuten;
 
     /**
+     * Bearbeitungsstatus des Lernblocks.
+     */
+    private String status;
+
+    /**
      * Erstellt einen neuen Lernblock.
      *
      * @param modulId ID des zugeordneten Moduls.
@@ -57,6 +64,7 @@ public class Lernblock implements Serializable {
         this.datum = validateDatum(datum);
         this.startzeit = validateStartzeit(startzeit);
         this.dauerMinuten = validateDauerMinuten(dauerMinuten);
+        this.status = STATUS_OFFEN;
     }
 
     /**
@@ -163,6 +171,28 @@ public class Lernblock implements Serializable {
         this.dauerMinuten = validateDauerMinuten(dauerMinuten);
     }
 
+    /**
+     * Gibt den aktuellen Status des Lernblocks zurueck.
+     *
+     * @return Status offen oder erledigt.
+     */
+    public String getStatus() {
+        if (status == null || status.isBlank()) {
+            return STATUS_OFFEN;
+        }
+        return status;
+    }
+
+    /**
+     * Setzt den Status des Lernblocks.
+     *
+     * @param status Neuer Status.
+     * @throws IllegalArgumentException wenn der Status nicht erlaubt ist.
+     */
+    public void setStatus(String status) {
+        this.status = validateStatus(status);
+    }
+
     private static UUID validateModulId(UUID modulId) {
         if (modulId == null) {
             throw new IllegalArgumentException("Ein Lernblock braucht ein Modul.");
@@ -196,5 +226,12 @@ public class Lernblock implements Serializable {
             throw new IllegalArgumentException("Die Dauer muss zwischen 1 und 1440 Minuten liegen.");
         }
         return dauerMinuten;
+    }
+
+    private static String validateStatus(String status) {
+        if (STATUS_OFFEN.equals(status) || STATUS_ERLEDIGT.equals(status)) {
+            return status;
+        }
+        throw new IllegalArgumentException("Der Status muss offen oder erledigt sein.");
     }
 }

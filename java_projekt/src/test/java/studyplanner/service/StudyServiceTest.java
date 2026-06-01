@@ -9,6 +9,7 @@ import studyplanner.model.Modul;
 import studyplanner.model.Termin;
 import studyplanner.persistence.Storage;
 
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -108,6 +109,7 @@ class StudyServiceTest {
         Assertions.assertTrue(reminder.isAktiv());
 
         service.updateTermin(termin.getId(), modul.getId(), "Nachklausur", LocalDate.of(2026, 5, 11), LocalTime.of(10, 0), "Raum B", 45, false);
+        service.updateTerminStatus(termin.getId(), Termin.STATUS_ERLEDIGT);
         Termin updatedTermin = service.findTermin(termin.getId()).orElseThrow();
         Erinnerung updatedReminder = service.findErinnerung(Erinnerung.ZielTyp.TERMIN, termin.getId()).orElseThrow();
 
@@ -115,6 +117,7 @@ class StudyServiceTest {
         Assertions.assertEquals(LocalDate.of(2026, 5, 11), updatedTermin.getDatum());
         Assertions.assertEquals(LocalTime.of(10, 0), updatedTermin.getUhrzeit());
         Assertions.assertEquals("Raum B", updatedTermin.getNotizen());
+        Assertions.assertEquals(Termin.STATUS_ERLEDIGT, updatedTermin.getStatus());
         Assertions.assertEquals(45, updatedReminder.getVorlaufMinuten());
         Assertions.assertFalse(updatedReminder.isAktiv());
 
@@ -138,6 +141,7 @@ class StudyServiceTest {
         Assertions.assertTrue(reminder.isAktiv());
 
         service.updateLernblock(lernblock.getId(), modul.getId(), "Integrale", LocalDate.of(2026, 5, 9), LocalTime.of(15, 0), 120, 10, false);
+        service.updateLernblockStatus(lernblock.getId(), Lernblock.STATUS_ERLEDIGT);
         Lernblock updatedLernblock = service.findLernblock(lernblock.getId()).orElseThrow();
         Erinnerung updatedReminder = service.findErinnerung(Erinnerung.ZielTyp.LERNBLOCK, lernblock.getId()).orElseThrow();
 
@@ -145,6 +149,7 @@ class StudyServiceTest {
         Assertions.assertEquals(LocalDate.of(2026, 5, 9), updatedLernblock.getDatum());
         Assertions.assertEquals(LocalTime.of(15, 0), updatedLernblock.getStartzeit());
         Assertions.assertEquals(120, updatedLernblock.getDauerMinuten());
+        Assertions.assertEquals(Lernblock.STATUS_ERLEDIGT, updatedLernblock.getStatus());
         Assertions.assertEquals(10, updatedReminder.getVorlaufMinuten());
         Assertions.assertFalse(updatedReminder.isAktiv());
 
@@ -217,6 +222,25 @@ class StudyServiceTest {
         Assertions.assertEquals(60, reloadedService.getEinstellung().getStandardVorlaufMinuten());
         Assertions.assertFalse(reloadedService.getEinstellung().isErinnerungenAktiv());
         Assertions.assertTrue(reloadedService.getFaelligeErinnerungen(LocalDateTime.now()).isEmpty());
+    }
+
+    /**
+     * Prueft, ob ein neuer Speicherort verwendet und die aktuellen Daten dort gespeichert werden.
+     */
+    @Test
+    void updateEinstellungCanChangeDataFile() {
+        Path originalDataFile = tempDir.resolve("studyplanner.dat");
+        Path newDataFile = tempDir.resolve("new").resolve("studyplanner.dat");
+        StudyService service = createService(originalDataFile);
+        Modul modul = service.addModul("Datenbanken", "#111111", "", 2);
+
+        service.updateEinstellung(20, true, newDataFile);
+
+        StudyService reloadedService = createService(newDataFile);
+        Assertions.assertEquals(newDataFile.toAbsolutePath().normalize(), service.getDataFile());
+        Assertions.assertTrue(Files.exists(newDataFile));
+        Assertions.assertEquals(20, reloadedService.getEinstellung().getStandardVorlaufMinuten());
+        Assertions.assertEquals(modul.getId(), reloadedService.getModule().get(0).getId());
     }
 
     /**

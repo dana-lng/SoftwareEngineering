@@ -10,6 +10,8 @@ import java.util.UUID;
  */
 public class Termin implements Serializable {
     private static final long serialVersionUID = 1L;
+    public static final String STATUS_OFFEN = "offen";
+    public static final String STATUS_ERLEDIGT = "erledigt";
 
     /**
      * Eindeutige ID des Termins.
@@ -42,6 +44,11 @@ public class Termin implements Serializable {
     private String notizen;
 
     /**
+     * Bearbeitungsstatus des Termins.
+     */
+    private String status;
+
+    /**
      * Erstellt einen neuen Termin.
      *
      * @param modulId ID des zugeordneten Moduls.
@@ -57,6 +64,7 @@ public class Termin implements Serializable {
         this.datum = validateDatum(datum);
         this.uhrzeit = validateUhrzeit(uhrzeit);
         this.notizen = normalizeText(notizen);
+        this.status = STATUS_OFFEN;
     }
 
     /**
@@ -162,6 +170,28 @@ public class Termin implements Serializable {
         this.notizen = normalizeText(notizen);
     }
 
+    /**
+     * Gibt den aktuellen Status des Termins zurueck.
+     *
+     * @return Status offen oder erledigt.
+     */
+    public String getStatus() {
+        if (status == null || status.isBlank()) {
+            return STATUS_OFFEN;
+        }
+        return status;
+    }
+
+    /**
+     * Setzt den Status des Termins.
+     *
+     * @param status Neuer Status.
+     * @throws IllegalArgumentException wenn der Status nicht erlaubt ist.
+     */
+    public void setStatus(String status) {
+        this.status = validateStatus(status);
+    }
+
     private static UUID validateModulId(UUID modulId) {
         if (modulId == null) {
             throw new IllegalArgumentException("Ein Termin braucht ein Modul.");
@@ -192,5 +222,12 @@ public class Termin implements Serializable {
 
     private static String normalizeText(String text) {
         return text == null ? "" : text.trim();
+    }
+
+    private static String validateStatus(String status) {
+        if (STATUS_OFFEN.equals(status) || STATUS_ERLEDIGT.equals(status)) {
+            return status;
+        }
+        throw new IllegalArgumentException("Der Status muss offen oder erledigt sein.");
     }
 }
