@@ -29,6 +29,7 @@ class LernblockTest {
         Assertions.assertEquals(datum, lernblock.getDatum());
         Assertions.assertEquals(startzeit, lernblock.getStartzeit());
         Assertions.assertEquals(90, lernblock.getDauerMinuten());
+        Assertions.assertEquals(Lernblock.STATUS_OFFEN, lernblock.getStatus());
     }
 
     /**
@@ -102,12 +103,14 @@ class LernblockTest {
         lernblock.setDatum(newDate);
         lernblock.setStartzeit(newStartTime);
         lernblock.setDauerMinuten(1440);
+        lernblock.setStatus(Lernblock.STATUS_ERLEDIGT);
 
         Assertions.assertEquals(newModulId, lernblock.getModulId());
         Assertions.assertEquals("Neues Thema", lernblock.getThema());
         Assertions.assertEquals(newDate, lernblock.getDatum());
         Assertions.assertEquals(newStartTime, lernblock.getStartzeit());
         Assertions.assertEquals(1440, lernblock.getDauerMinuten());
+        Assertions.assertEquals(Lernblock.STATUS_ERLEDIGT, lernblock.getStatus());
     }
 
     /**
@@ -143,5 +146,20 @@ class LernblockTest {
         Assertions.assertEquals("Ein Lernblock braucht ein Datum.", missingDateException.getMessage());
         Assertions.assertEquals("Ein Lernblock braucht eine Startzeit.", missingStartTimeException.getMessage());
         Assertions.assertEquals("Die Dauer muss zwischen 1 und 1440 Minuten liegen.", invalidDurationException.getMessage());
+    }
+
+    /**
+     * Prueft, ob nur offene und erledigte Statuswerte erlaubt sind.
+     */
+    @Test
+    void setStatusRejectsInvalidValue() {
+        Lernblock lernblock = new Lernblock(UUID.randomUUID(), "Thema", LocalDate.now(), LocalTime.NOON, 60);
+
+        IllegalArgumentException invalidStatusException = Assertions.assertThrows(
+                IllegalArgumentException.class,
+                () -> lernblock.setStatus("in arbeit")
+        );
+
+        Assertions.assertEquals("Der Status muss offen oder erledigt sein.", invalidStatusException.getMessage());
     }
 }

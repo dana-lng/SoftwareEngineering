@@ -13,6 +13,7 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.nio.file.Path;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -29,9 +30,11 @@ import java.util.UUID;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.DefaultCellEditor;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -46,6 +49,7 @@ import javax.swing.SpinnerNumberModel;
 import javax.swing.Timer;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import javax.swing.event.TableModelEvent;
 import javax.swing.table.DefaultTableModel;
 
 import studyplanner.model.Erinnerung;
@@ -67,6 +71,7 @@ public class StudyPlannerFrame extends JFrame {
     private static final Color SIDEBAR_HOVER_COLOR = new Color(176, 195, 224);
     private static final Color SIDEBAR_ACTIVE_COLOR = new Color(205, 218, 238);
     private static final Color SIDEBAR_TEXT_COLOR = new Color(2, 17, 64);
+    private static final String[] STATUS_OPTIONS = {Termin.STATUS_OFFEN, Termin.STATUS_ERLEDIGT};
 
     /**
      * Zentrale Serviceschicht fuer Datenzugriff und Logik.
@@ -119,6 +124,21 @@ public class StudyPlannerFrame extends JFrame {
     private final JTable lernblockTable = new JTable();
 
     /**
+     * Aktiver Statusfilter fuer Termine oder {@code null} fuer alle.
+     */
+    private String terminStatusFilter;
+
+    /**
+     * Aktiver Statusfilter fuer Lernbloecke oder {@code null} fuer alle.
+     */
+    private String lernblockStatusFilter;
+
+    /**
+     * Verhindert Speicheraktionen, waehrend Tabellen neu befuellt werden.
+     */
+    private boolean refreshingTables;
+
+    /**
      * Tabelle fuer Kalender-Eintraege.
      */
     private final JTable kalenderTable = new JTable();
@@ -142,6 +162,11 @@ public class StudyPlannerFrame extends JFrame {
      * Eingabefeld fuer den Standard-Vorlauf neuer Erinnerungen.
      */
     private final JSpinner standardVorlauf = new JSpinner(new SpinnerNumberModel(30, 0, 10080, 5));
+
+    /**
+     * Eingabefeld fuer den Speicherort der Datendatei.
+     */
+    private final JTextField speicherortField = new JTextField();
 
     /**
      * Erstellt das Hauptfenster und verbindet es mit der Serviceschicht.
@@ -353,15 +378,19 @@ public class StudyPlannerFrame extends JFrame {
      */
     private JPanel createTerminPanel() {
         JPanel panel = basePanel();
-        terminTable.setModel(new DefaultTableModel(new Object[]{"ID", "Titel", "Modul", "Datum", "Uhrzeit", "Erinnerung"}, 0) {
+        terminTable.setModel(new DefaultTableModel(new Object[]{"ID", "Titel", "Modul", "Datum", "Uhrzeit", "Status", "Erinnerung"}, 0) {
             @Override
             public boolean isCellEditable(int row, int column) {
-                return false;
+                return column == 5;
             }
         });
         hideIdColumn(terminTable);
+        terminTable.getColumnModel().getColumn(5).setCellEditor(new DefaultCellEditor(new JComboBox<>(STATUS_OPTIONS)));
+        terminTable.getModel().addTableModelListener(event -> updateTerminStatus(event));
         panel.add(new JScrollPane(terminTable), BorderLayout.CENTER);
         panel.add(buttonBar(
+                button("als offen markiert", () -> applyTerminStatusFilter(Termin.STATUS_OFFEN)),
+                button("als erledigt markiert", () -> applyTerminStatusFilter(Termin.STATUS_ERLEDIGT)),
                 button("Neu", this::addTermin),
                 button("Bearbeiten", this::editTermin),
                 button("Loeschen", this::deleteTermin)
@@ -376,15 +405,19 @@ public class StudyPlannerFrame extends JFrame {
      */
     private JPanel createLernblockPanel() {
         JPanel panel = basePanel();
-        lernblockTable.setModel(new DefaultTableModel(new Object[]{"ID", "Thema", "Modul", "Datum", "Start", "Dauer", "Erinnerung"}, 0) {
+        lernblockTable.setModel(new DefaultTableModel(new Object[]{"ID", "Thema", "Modul", "Datum", "Start", "Dauer", "Status", "Erinnerung"}, 0) {
             @Override
             public boolean isCellEditable(int row, int column) {
-                return false;
+                return column == 6;
             }
         });
         hideIdColumn(lernblockTable);
+        lernblockTable.getColumnModel().getColumn(6).setCellEditor(new DefaultCellEditor(new JComboBox<>(STATUS_OPTIONS)));
+        lernblockTable.getModel().addTableModelListener(event -> updateLernblockStatus(event));
         panel.add(new JScrollPane(lernblockTable), BorderLayout.CENTER);
         panel.add(buttonBar(
+                button("als offen markiert", () -> applyLernblockStatusFilter(Lernblock.STATUS_OFFEN)),
+                button("als erledigt markiert", () -> applyLernblockStatusFilter(Lernblock.STATUS_ERLEDIGT)),
                 button("Neu", this::addLernblock),
                 button("Bearbeiten", this::editLernblock),
                 button("Loeschen", this::deleteLernblock)
@@ -437,14 +470,16 @@ public class StudyPlannerFrame extends JFrame {
 
         erinnerungenAktiv.setSelected(service.getEinstellung().isErinnerungenAktiv());
         standardVorlauf.setValue(service.getEinstellung().getStandardVorlaufMinuten());
+        speicherortField.setText(service.getDataFile().toString());
 
         addFormRow(panel, 0, "Popup-Erinnerungen", erinnerungenAktiv);
         addFormRow(panel, 1, "Standard-Vorlauf in Minuten", standardVorlauf);
-        addFormRow(panel, 2, "Speicherort", new JLabel(System.getProperty("user.home") + "/.studyplanner/studyplanner.dat"));
+        addFormRow(panel, 2, "Speicherort", createSpeicherortPanel());
 
         JButton save = button("Speichern", () -> {
             try {
-                service.updateEinstellung((Integer) standardVorlauf.getValue(), erinnerungenAktiv.isSelected());
+                service.updateEinstellung((Integer) standardVorlauf.getValue(), erinnerungenAktiv.isSelected(),
+                        Path.of(speicherortField.getText().trim()));
                 showInfo("Einstellungen wurden gespeichert.");
             } catch (IllegalArgumentException | IllegalStateException ex) {
                 showError(ex.getMessage());
@@ -454,6 +489,30 @@ public class StudyPlannerFrame extends JFrame {
         c.anchor = GridBagConstraints.WEST;
         panel.add(save, c);
         return panel;
+    }
+
+    /**
+     * Erstellt die Eingabe fuer den frei waehlbaren Speicherort.
+     *
+     * @return Panel mit Pfadfeld und Dateiauswahl.
+     */
+    private JPanel createSpeicherortPanel() {
+        JPanel panel = new JPanel(new BorderLayout(8, 0));
+        panel.add(speicherortField, BorderLayout.CENTER);
+        panel.add(button("Durchsuchen", this::chooseSpeicherort), BorderLayout.EAST);
+        return panel;
+    }
+
+    /**
+     * Oeffnet eine Dateiauswahl fuer den Speicherort.
+     */
+    private void chooseSpeicherort() {
+        JFileChooser chooser = new JFileChooser();
+        chooser.setDialogTitle("Speicherort auswaehlen");
+        chooser.setSelectedFile(service.getDataFile().toFile());
+        if (chooser.showSaveDialog(this) == JFileChooser.APPROVE_OPTION) {
+            speicherortField.setText(chooser.getSelectedFile().toPath().toString());
+        }
     }
 
     /**
@@ -651,6 +710,60 @@ public class StudyPlannerFrame extends JFrame {
     }
 
     /**
+     * Setzt oder entfernt den Statusfilter der Termintabelle.
+     *
+     * @param status Status, nach dem gefiltert werden soll.
+     */
+    private void applyTerminStatusFilter(String status) {
+        terminStatusFilter = status.equals(terminStatusFilter) ? null : status;
+        refreshTermin();
+    }
+
+    /**
+     * Setzt oder entfernt den Statusfilter der Lernblocktabelle.
+     *
+     * @param status Status, nach dem gefiltert werden soll.
+     */
+    private void applyLernblockStatusFilter(String status) {
+        lernblockStatusFilter = status.equals(lernblockStatusFilter) ? null : status;
+        refreshLernblock();
+    }
+
+    /**
+     * Speichert Statusaenderungen aus der Termintabelle.
+     *
+     * @param event Tabellenereignis der Statusspalte.
+     */
+    private void updateTerminStatus(TableModelEvent event) {
+        if (refreshingTables || event.getType() != TableModelEvent.UPDATE || event.getColumn() != 5) {
+            return;
+        }
+        int row = event.getFirstRow();
+        UUID id = (UUID) terminTable.getModel().getValueAt(row, 0);
+        String status = String.valueOf(terminTable.getModel().getValueAt(row, 5));
+        service.updateTerminStatus(id, status);
+        refreshTermin();
+        refreshKalender();
+    }
+
+    /**
+     * Speichert Statusaenderungen aus der Lernblocktabelle.
+     *
+     * @param event Tabellenereignis der Statusspalte.
+     */
+    private void updateLernblockStatus(TableModelEvent event) {
+        if (refreshingTables || event.getType() != TableModelEvent.UPDATE || event.getColumn() != 6) {
+            return;
+        }
+        int row = event.getFirstRow();
+        UUID id = (UUID) lernblockTable.getModel().getValueAt(row, 0);
+        String status = String.valueOf(lernblockTable.getModel().getValueAt(row, 6));
+        service.updateLernblockStatus(id, status);
+        refreshLernblock();
+        refreshKalender();
+    }
+
+    /**
      * Aktualisiert alle Tabellen und Filterlisten.
      */
     private void refreshAll() {
@@ -742,13 +855,21 @@ public class StudyPlannerFrame extends JFrame {
      */
     private void refreshTermin() {
         DefaultTableModel model = (DefaultTableModel) terminTable.getModel();
-        model.setRowCount(0);
-        for (Termin termin : service.getTermine()) {
-            String erinnerung = service.findErinnerung(Erinnerung.ZielTyp.TERMIN, termin.getId())
-                    .map(e -> e.isAktiv() ? e.getVorlaufMinuten() + " Min." : "Aus")
-                    .orElse("Aus");
-            model.addRow(new Object[]{termin.getId(), termin.getTitel(), service.getModulName(termin.getModulId()),
-                    termin.getDatum(), termin.getUhrzeit().format(TIME_FORMAT), erinnerung});
+        refreshingTables = true;
+        try {
+            model.setRowCount(0);
+            for (Termin termin : service.getTermine()) {
+                if (terminStatusFilter != null && !terminStatusFilter.equals(termin.getStatus())) {
+                    continue;
+                }
+                String erinnerung = service.findErinnerung(Erinnerung.ZielTyp.TERMIN, termin.getId())
+                        .map(e -> e.isAktiv() ? e.getVorlaufMinuten() + " Min." : "Aus")
+                        .orElse("Aus");
+                model.addRow(new Object[]{termin.getId(), termin.getTitel(), service.getModulName(termin.getModulId()),
+                        termin.getDatum(), termin.getUhrzeit().format(TIME_FORMAT), termin.getStatus(), erinnerung});
+            }
+        } finally {
+            refreshingTables = false;
         }
     }
 
@@ -757,13 +878,22 @@ public class StudyPlannerFrame extends JFrame {
      */
     private void refreshLernblock() {
         DefaultTableModel model = (DefaultTableModel) lernblockTable.getModel();
-        model.setRowCount(0);
-        for (Lernblock block : service.getLernbloecke()) {
-            String erinnerung = service.findErinnerung(Erinnerung.ZielTyp.LERNBLOCK, block.getId())
-                    .map(e -> e.isAktiv() ? e.getVorlaufMinuten() + " Min." : "Aus")
-                    .orElse("Aus");
-            model.addRow(new Object[]{block.getId(), block.getThema(), service.getModulName(block.getModulId()),
-                    block.getDatum(), block.getStartzeit().format(TIME_FORMAT), block.getDauerMinuten() + " Min.", erinnerung});
+        refreshingTables = true;
+        try {
+            model.setRowCount(0);
+            for (Lernblock block : service.getLernbloecke()) {
+                if (lernblockStatusFilter != null && !lernblockStatusFilter.equals(block.getStatus())) {
+                    continue;
+                }
+                String erinnerung = service.findErinnerung(Erinnerung.ZielTyp.LERNBLOCK, block.getId())
+                        .map(e -> e.isAktiv() ? e.getVorlaufMinuten() + " Min." : "Aus")
+                        .orElse("Aus");
+                model.addRow(new Object[]{block.getId(), block.getThema(), service.getModulName(block.getModulId()),
+                        block.getDatum(), block.getStartzeit().format(TIME_FORMAT), block.getDauerMinuten() + " Min.",
+                        block.getStatus(), erinnerung});
+            }
+        } finally {
+            refreshingTables = false;
         }
     }
 

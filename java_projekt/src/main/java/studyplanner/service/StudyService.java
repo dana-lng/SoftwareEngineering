@@ -10,6 +10,7 @@ import studyplanner.persistence.Storage;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.nio.file.Path;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
@@ -179,6 +180,18 @@ public class StudyService {
     }
 
     /**
+     * Aktualisiert nur den Status eines vorhandenen Termins.
+     *
+     * @param id ID des Termins.
+     * @param status Neuer Status.
+     */
+    public void updateTerminStatus(UUID id, String status) {
+        Termin termin = findTermin(id).orElseThrow(() -> new IllegalArgumentException("Termin wurde nicht gefunden."));
+        termin.setStatus(status);
+        save();
+    }
+
+    /**
      * Loescht einen Termin und die zugehoerige Erinnerung.
      *
      * @param id ID des Termins.
@@ -234,6 +247,18 @@ public class StudyService {
     }
 
     /**
+     * Aktualisiert nur den Status eines vorhandenen Lernblocks.
+     *
+     * @param id ID des Lernblocks.
+     * @param status Neuer Status.
+     */
+    public void updateLernblockStatus(UUID id, String status) {
+        Lernblock lernblock = findLernblock(id).orElseThrow(() -> new IllegalArgumentException("Lernblock wurde nicht gefunden."));
+        lernblock.setStatus(status);
+        save();
+    }
+
+    /**
      * Loescht einen Lernblock und die zugehoerige Erinnerung.
      *
      * @param id ID des Lernblocks.
@@ -254,6 +279,29 @@ public class StudyService {
         studyPlan.getEinstellung().setStandardVorlaufMinuten(standardVorlaufMinuten);
         studyPlan.getEinstellung().setErinnerungenAktiv(erinnerungenAktiv);
         save();
+    }
+
+    /**
+     * Aktualisiert globale Einstellungen und aendert den Speicherort der Datendatei.
+     *
+     * @param standardVorlaufMinuten Standard-Vorlauf fuer neue Erinnerungen.
+     * @param erinnerungenAktiv Gibt an, ob Erinnerungen global aktiv sind.
+     * @param dataFile Neuer Speicherort der Datendatei.
+     */
+    public void updateEinstellung(int standardVorlaufMinuten, boolean erinnerungenAktiv, Path dataFile) {
+        studyPlan.getEinstellung().setStandardVorlaufMinuten(standardVorlaufMinuten);
+        studyPlan.getEinstellung().setErinnerungenAktiv(erinnerungenAktiv);
+        storage.setDataFile(dataFile);
+        save();
+    }
+
+    /**
+     * Gibt den aktuell verwendeten Speicherort zurueck.
+     *
+     * @return Pfad zur Datendatei.
+     */
+    public Path getDataFile() {
+        return storage.getDataFile();
     }
 
     /**

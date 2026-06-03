@@ -45,7 +45,23 @@ class StorageTest {
         Path dataFile = tempDir.resolve("custom").resolve("studyplanner.dat");
         Storage storage = new Storage(dataFile);
 
-        Assertions.assertEquals(dataFile, storage.getDataFile());
+        Assertions.assertEquals(dataFile.toAbsolutePath().normalize(), storage.getDataFile());
+    }
+
+    /**
+     * Prueft, ob ein geaenderter Speicherort in der Konfiguration gemerkt wird.
+     */
+    @Test
+    void setDataFileStoresConfiguredPath() {
+        Path configFile = tempDir.resolve("config.properties");
+        Path firstDataFile = tempDir.resolve("first.dat");
+        Path secondDataFile = tempDir.resolve("folder").resolve("second.dat");
+        Storage storage = new Storage(firstDataFile, configFile);
+
+        storage.setDataFile(secondDataFile);
+
+        Storage reloadedStorage = Storage.fromConfiguration(configFile);
+        Assertions.assertEquals(secondDataFile.toAbsolutePath().normalize(), reloadedStorage.getDataFile());
     }
 
     /**
