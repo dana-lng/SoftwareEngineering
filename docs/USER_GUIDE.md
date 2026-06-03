@@ -1,4 +1,4 @@
-﻿
+
 # Anwenderdokumentation: Study Planner
 
 Der Study Planner ist eine Desktop-Anwendung für Studenten. Mit der Anwendung können Module, Termine, Lernblöcke und Erinnerungen verwaltet werden. Alle Daten werden lokal auf dem eigenen Computer gespeichert.
@@ -171,6 +171,15 @@ Der Termin erscheint danach in der Terminliste und im Kalender.
 
 Beim Löschen eines Termins wird auch die zugehörige Erinnerung entfernt.
 
+### Status und Anzeige filtern
+
+In der Terminliste gibt es eine Spalte „Status“.
+Über diese Spalte kann zwischen offenen und erledigten Terminen unterschieden werden.
+
+Zusätzlich stehen im unteren Bereich der Ansicht Schaltflächen zur Verfügung, mit denen gefiltert werden kann, ob offene oder erledigte Termine angezeigt werden sollen.
+
+Dadurch kann die Terminliste je nach gewünschtem Status eingeschränkt dargestellt werden.
+
 ## Lernblöcke
 
 Im Bereich **Lernblöcke** können geplante Lernzeiten verwaltet werden.
@@ -203,6 +212,15 @@ Der Lernblock erscheint danach in der Lernblockliste und im Kalender.
 3. Bestätigen Sie die Rückfrage.
 
 Beim Löschen eines Lernblocks wird auch die zugehörige Erinnerung entfernt.
+
+### Status und Anzeige filtern
+
+In der Lernblockliste gibt es eine Spalte „Status“.
+Über diese Spalte kann zwischen offenen und erledigten Lernblöcken unterschieden werden.
+
+Zusätzlich stehen im unteren Bereich der Ansicht Schaltflächen zur Verfügung, mit denen gefiltert werden kann, ob offene oder erledigte Lernblöcke angezeigt werden sollen.
+
+Dadurch kann die Lernblockliste je nach gewünschtem Status eingeschränkt dargestellt werden.
 
 ## Erinnerungen
 
