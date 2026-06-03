@@ -1,0 +1,51 @@
+-J-Duser.language=
+-J-Duser.country=
+@options
+@packages
+-encoding
+'UTF-8'
+-protected
+--release
+17
+-sourcepath
+'/home/yasamin/se-beleg/se-ii/java_projekt/src/main/java'
+-author
+-bottom
+'Copyright &#169; 2026. All rights reserved.'
+-charset
+'UTF-8'
+-d
+'/home/yasamin/se-beleg/se-ii/java_projekt/target/reports/apidocs'
+-docencoding
+'UTF-8'
+-doctitle
+'Study Planner 1.0.0 API'
+-use
+-version
+-windowtitle
+'Study Planner 1.0.0 API'
+studyplanner.model
+studyplanner.ui
+studyplanner.persistence
+studyplanner.service
+studyplanner
+/home/yasamin/se-beleg/se-ii/java_projekt/src/main/java = 1778087885550
+/home/yasamin/se-beleg/se-ii/java_projekt/target/reports/apidocs/overview-tree.html = 1780500971248
+/home/yasamin/se-beleg/se-ii/java_projekt/target/reports/apidocs/serialized-form.html = 1780500971188
+/home/yasamin/se-beleg/se-ii/java_projekt/target/reports/apidocs/constant-values.html = 1780500971156
+/home/yasamin/se-beleg/se-ii/java_projekt/target/reports/apidocs/jquery-ui.overrides.css = 1780500971320
+/home/yasamin/se-beleg/se-ii/java_projekt/target/reports/apidocs/allpackages-index.html = 1780500971280
+/home/yasamin/se-beleg/se-ii/java_projekt/target/reports/apidocs/script.js = 1780500971312
+/home/yasamin/se-beleg/se-ii/java_projekt/target/reports/apidocs/index-all.html = 1780500971308
+/home/yasamin/se-beleg/se-ii/java_projekt/target/reports/apidocs/search.js = 1780500971316
+/home/yasamin/se-beleg/se-ii/java_projekt/target/reports/apidocs/member-search-index.js = 1780500971280
+/home/yasamin/se-beleg/se-ii/java_projekt/target/reports/apidocs/type-search-index.js = 1780500971280
+/home/yasamin/se-beleg/se-ii/java_projekt/target/reports/apidocs/allclasses-index.html = 1780500971276
+/home/yasamin/se-beleg/se-ii/java_projekt/target/reports/apidocs/overview-summary.html = 1780500971308
+/home/yasamin/se-beleg/se-ii/java_projekt/target/reports/apidocs/help-doc.html = 1780500971312
+/home/yasamin/se-beleg/se-ii/java_projekt/target/reports/apidocs/tag-search-index.js = 1780500971284
+/home/yasamin/se-beleg/se-ii/java_projekt/target/reports/apidocs/stylesheet.css = 1780500971312
+/home/yasamin/se-beleg/se-ii/java_projekt/target/reports/apidocs/element-list = 1780500971108
+/home/yasamin/se-beleg/se-ii/java_projekt/target/reports/apidocs/module-search-index.js = 1780500971280
+/home/yasamin/se-beleg/se-ii/java_projekt/target/reports/apidocs/index.html = 1780500971252
+/home/yasamin/se-beleg/se-ii/java_projekt/target/reports/apidocs/package-search-index.js = 1780500971280
