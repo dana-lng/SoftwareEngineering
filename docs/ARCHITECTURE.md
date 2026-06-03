@@ -1,4 +1,4 @@
-﻿
+
 # Entwicklerdokumentation: Architektur
 
 Diese Dokumentation beschreibt den technischen Aufbau der Anwendung **Study Planner**. Sie richtet sich an Entwickler, die den Code verstehen, erweitern oder warten möchten.
@@ -82,6 +82,7 @@ Der Service ist verantwortlich für:
 - Module anlegen, bearbeiten und löschen
 - Termine anlegen, bearbeiten und löschen
 - Lernblöcke anlegen, bearbeiten und löschen
+- Status von Terminen und Lernblöcken verwalten und Einträge nach Status filtern
 - Erinnerungen erzeugen und aktualisieren
 - Kalender-Einträge filtern
 - fällige Erinnerungen berechnen
@@ -137,6 +138,7 @@ Das Package `ui` enthält die Swing-Oberfläche.
 ### `StudyPlannerFrame`
 
 `StudyPlannerFrame` ist das Hauptfenster der Anwendung.
+In den Bereichen Termine und Lernblöcke werden die Einträge tabellarisch dargestellt. Der Status eines Eintrags wird in einer eigenen Spalte angezeigt. Zusätzlich kann die Anzeige über Schaltflächen im unteren Bereich nach offenem oder erledigtem Status gefiltert werden.
 
 Die Oberfläche enthält:
 
@@ -192,8 +194,10 @@ Wichtige Felder:
 - `datum`
 - `uhrzeit`
 - `notizen`
+- `status`
 
 Die Verbindung zum Modul erfolgt über `modulId`.
+Der Status legt fest, ob der Termin als offen oder erledigt behandelt wird.
 
 ### Lernblock
 
@@ -207,8 +211,10 @@ Wichtige Felder:
 - `datum`
 - `startzeit`
 - `dauerMinuten`
+- `status`
 
 Die Verbindung zum Modul erfolgt über `modulId`.
+Der Status legt fest, ob der Lernblock als offen oder erledigt behandelt wird.
 
 ### Erinnerung
 
